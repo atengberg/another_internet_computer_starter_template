@@ -1,0 +1,38 @@
+{
+  "name": "another_internet_computer_starter_template",
+  "version": "0.2.0",
+  "private": true,
+  "description": "Internet Computer starter application with Vite React React Router Tailwind mo-dev Internet Identity Auth Client and WebWorkers serving Motoko",
+  "type": "module",
+  "author": "Ashton Engberg <atengberg@proton.me> (https://github.com/atengberg)",
+  "keywords": [
+    "Internet Computer",
+    "Motoko",
+    "React",
+    "React Hooks",
+    "JavaScript",
+    "Canister",
+    "Vite",
+    "Tailwind",
+    "Web Workers",
+    "Internet Identity",
+    "AuthClient"
+  ],
+  "scripts": {
+    "setup": "cd src/frontend; npm ci; cd ../..; npm ci; dfx deploy; dfx generate backend",
+    "build": "cd src/frontend; npm run build",
+    "start": "run-p frontend backend",
+    "backend": "mo-dev --generate --deploy -y",
+    "frontend": "cd src/frontend; npm run start",
+    "lint": "cd src/frontend; npm run lint"
+  },
+  "engines": {
+    "node": "^12 || ^14 || ^16 || ^18"
+  },
+  "dependencies": {
+    "mo-dev": "^0.10.1"
+  },
+  "devDependencies": {
+    "npm-run-all": "^4.1.5"
+  }
+}

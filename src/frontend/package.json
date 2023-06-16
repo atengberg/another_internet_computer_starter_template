@@ -1,0 +1,41 @@
+{
+  "name": "template-frontend",
+  "version": "1.0.0",
+  "description": "frontend canister",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "build": "vite build",
+    "start": "vite --port 3000",
+    "lint": "eslint --ext .js,.jsx ."
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.0.0",
+    "autoprefixer": "^10.4.14",
+    "eslint": "^8.42.0",
+    "eslint-plugin-react": "^7.32.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "postcss": "^8.4.24",
+    "tailwindcss": "^3.3.2",
+    "tailwindcss-debug-screens": "^2.2.1",
+    "vite": "^4.3.9",
+    "vite-plugin-environment": "^1.1.3"
+  },
+  "dependencies": {
+    "@dfinity/agent": "^0.15.6",
+    "@dfinity/auth-client": "^0.15.6",
+    "@dfinity/candid": "^0.15.6",
+    "@dfinity/principal": "^0.15.6",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "engines": {
+    "node": "^12 || ^14 || ^16 || ^18"
+  },
+  "browserslist": [
+    "last 2 chrome version",
+    "last 2 firefox version",
+    "last 2 safari version",
+    "last 2 edge version"
+  ]
+}
