@@ -7,9 +7,6 @@ This project uses a web worker to handle all canister calls (because why not?).
 As a result instead of simply importing the backend as an actor instance of its generated declarations, when a backend actor instance is needed, it is created by the web worker. 
 
 This is why there's a `useInternetIdentity` in contrast to the original AuthClient demo's `use-Auth-Client` hook which provides more functionality than just the `isAuthenticated` variable used here. 
-
-!todo figure out best way to group canister related stuff
-
 ## frontend "architecture"
 
 `CanisterProvider` creates `CanisterContext` made available by the `useCanister` hook.
@@ -31,3 +28,10 @@ So the flow goes something like:
 UI: `taskUi({ type: "PING" })` -> WebWorker: `backend.ping()` -> WebWorker (back to UI) `postMessage({ type: "SET_VALUE", payload: pingCount, key: "pingCount" })` which is then received by the canister provider's reducer and updates the state. 
 
 That's probably not very clear, but if you look at the default example should be direct enough. 
+
+### todo
+
+ - figure out best way to group/name canister related stuff (an integrated set of hooks/provider/components/scripts/utils in same subdirectory?)
+ - add vitetest 
+ - add identity loaded from file to skip having to log in
+ - "progress bar" loader + worker progress % emitter
