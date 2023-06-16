@@ -94,3 +94,5 @@ npm run lint
 ```
 
 in either the root or frontend directory. It will only lint the frontend files (currently).
+
+# there's more in the frontend readme!
