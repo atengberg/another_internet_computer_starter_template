@@ -50,9 +50,7 @@ const useCanisterInitializer = () => {
 };
 
 
-const PingDisplay = ({ isAuthenticated, pingCount, pingIt }) => {  
-
-  if (!isAuthenticated) return;
+const PingDisplay = ({ pingCount, pingIt }) => {  
 
   const getWordage = () => (
     pingCount == 0 ? "not even once yet" 
@@ -67,7 +65,7 @@ const PingDisplay = ({ isAuthenticated, pingCount, pingIt }) => {
         The backend canister has been pinged by an authenticated user
         <span className="font-extrabold">{` ${getWordage()}`}</span>.
       </span>
-      <div className="mt-16 flex flex-col h-1/3">
+      <div className="mt-8 flex flex-col h-1/3">
         <span className="text-3xl">Would you like to ping {`${pingCount > 0 ? "it again" : "the backend canister"}?`}</span>
         <button className={`
           mt-16 mx-auto p-4 rounded-full uppercase text-8xl tracking-widest transition w-fit
@@ -84,7 +82,7 @@ const PingDisplay = ({ isAuthenticated, pingCount, pingIt }) => {
 const DebugInfo = ({ vals = [], initShow = false }) => {
   const vvals = vals ?? {
     envKeys: Object.keys(process.env),
-    // Note "import.meta.env" causes bug in vite build. 
+    // Note "import.meta.env" or "process.env" (wrapping them as literals) (can) causes bug in vite build due to how it uses regex to parse.
     ["import meta env"]: import.meta.env,
     ["process env"]: process.env
   };
