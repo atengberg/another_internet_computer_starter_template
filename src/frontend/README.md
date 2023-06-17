@@ -35,3 +35,9 @@ That's probably not very clear, but if you look at the default example should be
  - add vitetest 
  - add identity loaded from file to skip having to log in
  - "progress bar" loader + worker progress % emitter
+
+ Links 
+
+- https://kentcdodds.com/blog/stop-using-isloading-booleans
+- https://kentcdodds.com/blog/how-to-test-custom-react-hooks
+  

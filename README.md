@@ -41,7 +41,6 @@ This project requires the Internet Computer's `dfx` sdk to run.
 
 ## running the project locally
 
-_todo_ (use make or another to initialize easily)
 
 If `dfx` is installed on your system, you can run this project locally using the following commands:
 
@@ -81,10 +80,11 @@ As a result, the scripts of this project directly run the scripts of that projec
 
 `dfx` generates a `.env` containing all the environmental variables it creates, which is specified to be created in `src/frontend/`. 
 
+Normally `internet_identity` is not required to be a dependency of `frontend` to work, but this is done to ensure its canister id is included when its generated.
+
 `vite-plugin-environment` will make these available through the `vite.config.js` configuration on `process.env` and `import.meta.env`
 
-Just a reminder--don't push your private keys!
-
+Just a reminder--don't push your private keys! (Fortunately there's a tool like [BFG Repo-Cleaner](https://rtyley.github.io/bfg-repo-cleaner/) if you do.)
 ## note about eslint
 
 Linting is not hooked into other scripts, if you want to use it run it manually with:
