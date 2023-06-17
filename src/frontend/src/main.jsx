@@ -13,4 +13,3 @@ const getNotSupported = () => (
 const dapp = <CanisterProvider><App /></CanisterProvider>;
 ReactDOM.createRoot(document.getElementById('root')).render(supported ? dapp : getNotSupported());
 
-console.log(JSON.stringify({(!!typeof(Worker))}))

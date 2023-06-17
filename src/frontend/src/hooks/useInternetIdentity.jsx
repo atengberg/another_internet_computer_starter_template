@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, useCallback } from 'react';
+import { useState, useRef, useCallback, useLayoutEffect } from 'react';
 import { AuthClient } from '@dfinity/auth-client';
 
 const useInternetIdentity = (callbacks = {}) => {
@@ -23,7 +23,7 @@ const useInternetIdentity = (callbacks = {}) => {
     AuthClient.create({ idleOptions: { onIdle }}).then(updateAuth);
   }, [onIdle]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     // Initialize an authClient.
     createSetAuthClient();
   }, [createSetAuthClient]);

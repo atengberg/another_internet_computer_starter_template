@@ -1,8 +1,8 @@
-import { useRef, useEffect } from 'react';
+import { useRef, useLayoutEffect } from 'react';
 
 const useWorker = (sourceFilePath, onMessageCallback) => {
   const workerRef = useRef(null);
-  useEffect(() => {
+  useLayoutEffect(() => {
     let mounted = true;
     const w = new Worker(new URL(sourceFilePath, import.meta.url), { type: 'module' });
     w.addEventListener('message', ({ data }) => {
