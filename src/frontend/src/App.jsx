@@ -52,6 +52,10 @@ const useCanisterInitializer = () => {
 
 const PingDisplay = ({ pingCount, pingIt }) => {  
 
+  if (!pingCount) {
+    return <div className="w-1/2 text-center text-xl">loading...</div>
+  }
+
   const getWordage = () => (
     pingCount == 0 ? "not even once yet" 
       : pingCount == 1 ? "once" 
@@ -79,7 +83,7 @@ const PingDisplay = ({ pingCount, pingIt }) => {
   )
 };
 
-const DebugInfo = ({ vals = [], initShow = false }) => {
+const DebugInfo = ({ vals, initShow = false }) => {
   const vvals = vals ?? {
     envKeys: Object.keys(process.env),
     // Note "import.meta.env" or "process.env" (wrapping them as literals) (can) causes bug in vite build due to how it uses regex to parse.
