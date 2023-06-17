@@ -19,7 +19,7 @@
     "AuthClient"
   ],
   "scripts": {
-    "setup": "cd src/frontend; npm ci; cd ../..; npm ci; dfx deploy backend; dfx generate backend; dfx deploy internet_identity; dfx deploy frontend",
+    "setup": "cd src/frontend; npm ci; cd ../..; npm ci; dfx deploy; dfx generate backend",
     "build": "cd src/frontend; npm run build",
     "start": "run-p frontend backend",
     "backend": "mo-dev --generate --deploy -y",
