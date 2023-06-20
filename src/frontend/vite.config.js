@@ -5,18 +5,20 @@ import EnvironmentPlugin from 'vite-plugin-environment'
 export default defineConfig({
   plugins: [
     react(),
-    // Maps all envars prefixed with 'CANISTER_' to process.env.*
-    EnvironmentPlugin("all", { prefix: "CANISTER_" }),
-    // Weirdly process not available to Webworker but import.meta.env will be.
-    EnvironmentPlugin("all", { prefix: "CANISTER_", defineOn: 'import.meta.env' }),
-    // Maps all envars prefixed with 'DFX_' to process.env.*
-    EnvironmentPlugin("all", { prefix: "DFX_" }),
-    // Weirdly process not available to Webworker but import.meta.env will be.
-    EnvironmentPlugin("all", { prefix: "DFX_", defineOn: 'import.meta.env' }),
+    // Spreads all the envars from .env prefixed with "CANISTER_" onto import.meta.env. 
+    EnvironmentPlugin("all", { prefix: "CANISTER_", defineOn: "import.meta.env" }),
+    // Spreads all the envars from .env prefixed with "DFX_" onto import.meta.env. 
+    EnvironmentPlugin("all", { prefix: "DFX_", defineOn: "import.meta.env" }),
   ],
   build: {
     outDir: "dist/",
     emptyOutDir: true,
+  },
+  define: {
+    // This project doesn't reference process.env _anywhere_, but canister type declarations 
+    // do use process.env by default, so if you import actors from dfx generate's output, 
+    // you'd have to add them here like:
+    // 'process.env.DFX_NETWORK': JSON.stringify(process.env.DFX_NETWORK),
   },
   optimizeDeps: {
     esbuildOptions: {
@@ -38,3 +40,6 @@ export default defineConfig({
     }
   }
 })
+
+
+// https://www.npmjs.com/package/unplugin-icons

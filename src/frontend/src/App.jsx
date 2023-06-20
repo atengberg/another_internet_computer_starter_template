@@ -85,10 +85,9 @@ const PingDisplay = ({ pingCount, pingIt }) => {
 
 const DebugInfo = ({ vals, initShow = false }) => {
   const vvals = vals ?? {
-    envKeys: Object.keys(process.env),
-    // Note "import.meta.env" or "process.env" (wrapping them as literals) (can) causes bug in vite build due to how it uses regex to parse.
+    // Note using "import-dot-meta-dot-env" can cause Vite to bug out during build. 
     ["import meta env"]: import.meta.env,
-    ["process env"]: process.env
+
   };
   const [show, setShow] = useState(null);
   useEffect(() => { setShow(() => initShow)}, [initShow]);

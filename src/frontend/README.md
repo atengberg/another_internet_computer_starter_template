@@ -7,6 +7,17 @@ This project uses a web worker to handle all canister calls (because why not?).
 As a result instead of simply importing the backend as an actor instance of its generated declarations, when a backend actor instance is needed, it is created by the web worker. 
 
 This is why there's a `useInternetIdentity` in contrast to the original AuthClient demo's `use-Auth-Client` hook which provides more functionality than just the `isAuthenticated` variable used here. 
+
+## important!!! 
+
+Vite doesn't inject the spread of enviromental variables on `process.env` into the build output, instead it uses `import.meta.env`. 
+
+While it is possible to configure Vite's config to do this (see the example in the `define: {...}` comments), this project instead just uses `import.meta.env` along with the plugin `vite-plugin-environment` to automatically spread all the environmental vars from `.env` onto `import.meta.env`. 
+
+As a result, if the default generated type declarations are imported and used in the client code in your own project, as shown in the developer doc's standard example, the references to `process.env` either needs to be substituted for `import.meta.env` or the vite config needs to be updated to define `process.env...canisterIds | dfxNetwork | etc`. 
+
+Remember that the dev server hosting the frontend may behave differently than the asset canister hosting the frontend. 
+
 ## frontend "architecture"
 
 `CanisterProvider` creates `CanisterContext` made available by the `useCanister` hook.
