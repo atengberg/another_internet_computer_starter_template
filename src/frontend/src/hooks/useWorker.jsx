@@ -1,11 +1,12 @@
 import { useRef, useLayoutEffect } from 'react';
 
-const useWorker = (sourceFilePath, onMessageCallback) => {
+// Passing in url location seem to trigger failure of asset canister to create worker.
+const useWorker = (onMessageCallback) => {
   const workerRef = useRef(null);
     // Since we want the workerRef populated before the rest, useLayoutEffect is used. 
   useLayoutEffect(() => {
     let mounted = true;
-    const w = new Worker(new URL(sourceFilePath, import.meta.url), { type: 'module' });
+    const w = new Worker(new URL("../worker/worker.js", import.meta.url), { type: 'module' });
     w.addEventListener('message', ({ data }) => {
       if (mounted && onMessageCallback) {
         onMessageCallback(data);
@@ -17,7 +18,7 @@ const useWorker = (sourceFilePath, onMessageCallback) => {
       workerRef.current?.terminate();
       workerRef.current = null;
     }
-  }, [sourceFilePath, onMessageCallback]);
+  }, [onMessageCallback]);
   const postMessage = (data = {}) => workerRef.current?.postMessage(data);
   return {
     postMessage

@@ -2,6 +2,8 @@ import  { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import EnvironmentPlugin from 'vite-plugin-environment'
 
+
+
 export default defineConfig({
   plugins: [
     react(),
@@ -13,6 +15,9 @@ export default defineConfig({
   build: {
     outDir: "dist/",
     emptyOutDir: true,
+  },
+  worker: {
+    format: 'es'
   },
   define: {
     // This project doesn't reference process.env _anywhere_, but canister type declarations 

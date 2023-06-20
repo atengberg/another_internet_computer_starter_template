@@ -1,7 +1,7 @@
 import { AuthClient } from "@dfinity/auth-client";
 import { Actor, HttpAgent } from "@dfinity/agent";
 
-const createWorkerActor = async (canisterId, idlFactory) => {
+async function createWorkerActor(canisterId, idlFactory) {
   if (!canisterId || !idlFactory) {
     console.error("Tried to create an authenticated canister actor without specifying which idlFactory or canisterId to use.")
     return;
@@ -13,7 +13,7 @@ const createWorkerActor = async (canisterId, idlFactory) => {
     }
   });
   const isAuthenticated = await authClient.isAuthenticated();
-  const isProduction = import.meta.env.MODE === `production`;
+  const isProduction = import.meta.env.DFX_NETWORK === 'ic';
   if (!isAuthenticated) {
     // Use the AuthClient created by the frontend to check if idling logs user out, here
     // it just needs to be authenticated as it will be removed when the user does log out (idle or not).

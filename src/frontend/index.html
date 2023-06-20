@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <!-- Seems to prevent later creating and importing of worker as cors violation. -->
+    <link rel="modulepreload" href="./src/worker/worker.js" />
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>another internet computer starter template</title>
@@ -13,7 +15,7 @@
     <script>window.global ||= window</script>
     <script type="module">
       // Add the debug screens overlay in development mode.
-      document.body.className += (import.meta.env.MODE === 'development' ? 'debug-screens' : '');
+      document.body.className += (import.meta.env.DEV ? 'debug-screens' : '');
     </script>
   </body>
 </html>

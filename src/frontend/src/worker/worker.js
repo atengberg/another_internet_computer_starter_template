@@ -1,18 +1,23 @@
 import { idlFactory } from "../../../declarations/backend/backend.did.js";
 import createWorkerActor from "./createWorkerActor.js";
 
-const getActor = () => createWorkerActor(import.meta.env.CANISTER_ID_BACKEND, idlFactory);
+// Note to self: be sure when deploying between local and mainnet, the deploy was run to 
+// actually update the .env accordingly. 
+async function getActor() {
+  return await createWorkerActor(import.meta.env.CANISTER_ID_BACKEND, idlFactory);
+} 
 
-const ping = async () => {
+async function ping() {
   console.log(`ping`)
   const backend = await getActor();
   if (backend) {
-    const pingCount = `${await backend.ping()}`;
-    self.postMessage({ type: "SET_VALUE", payload: pingCount, key: "pingCount" });
+    const pingCount = await backend.ping();
+    const payload = `${pingCount}`;
+    self.postMessage({ type: "SET_VALUE", payload, key: "pingCount" });
   }
 };
 
-const queryPing = async () => {
+async function queryPing() {
   const backend = await getActor();
   if (backend) {
     const pingCount = `${await backend.getPingCount()}`;
@@ -20,7 +25,8 @@ const queryPing = async () => {
   }
 }
 
-self.onmessage = ({ data }) => {
+function onMessage ({ data }) {
+  console.info(`WebWorker::self.onmessage() data ${JSON.stringify(data)}`)
   const { type, payload } = data;
   switch (type) {
     case "PING":
@@ -32,11 +38,12 @@ self.onmessage = ({ data }) => {
     default:
       console.info('WebWorker::self.onmessage() with no data action type.')
   };
-};
-
-self.onerror = (e) => {
-  const { lineno, filename, message } = e;
-  console.error(`WebWorker::self.onerror(e) with error e ${JSON.stringify(e)}`);
-  console.warn(`WebWorker::self.onerror(e) => e is also \n\t${JSON.stringify({ lineno: lineno || "undefined", filename: filename || "undefined", message: message || "undefined",})}`);
-  throw e;
 }
+
+self.addEventListener("message", onMessage);
+
+self.addEventListener("error", e => {
+  //const { lineno, filename, message } = e;
+  console.error(`webworker error ${JSON.stringify(e)}`)
+  throw e;
+})
