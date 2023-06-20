@@ -26,13 +26,12 @@ const reducer = (state, { type, payload, key }) => {
 }
 
 const CanisterProvider = ({ children }) => {
-
   const [state, dispatch] = useReducer(
     reducer,
     initReducerState
   );  
-  
-  const { postMessage } = useWorker('../worker/worker.js', dispatch);
+
+  const { postMessage } = useWorker(dispatch);
   const {
     isAuthenticated,
     login,
