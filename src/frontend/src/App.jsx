@@ -1,43 +1,142 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
+import { BrowserRouter, Outlet, Link, useNavigate, Navigate, Routes, Route, useParams } from 'react-router-dom';
 
 import LoginLogoutButton from "./components/LoginLogoutButton";
 import useCanister from "./hooks/useCanister";
 
-const App = () => {
+const FullWidthHeightParent = ({ children }) => <div className="w-full h-full">{children}</div>
+const FilletOutlet = () => <div className="w-full h-full"><Outlet /></div>
 
-  const { 
-    isAuthenticated,
-    pingCount,
-    taskWorker
-  } = useCanister();
-
-  useCanisterInitializer();
-
+const ElementPlaceholder = ({ title = `default placeholder`, children }) => {
   return (
-    <div className="relative w-full h-screen">
-      <div className="w-full h-full flex flex-col items-center justify-center">
-        {isAuthenticated 
-          ? 
-          <PingDisplay 
-            pingCount={pingCount} 
-            pingIt={() => taskWorker({ type: "PING" })} 
-            isAuthenticated={isAuthenticated}
-            />
-          :
-          <span className="text-4xl">
-            You are not authenticated and cannot interact with the backend canister until you do so.
-          </span>
-        }
-      </div>
-      <div className="absolute top-3 right-3 w-auto h-auto">
-        <LoginLogoutButton />
-      </div>
-      <div className="absolute top-3 left-3 w-auto h-auto">
-        <DebugInfo />
-      </div>
+    <div className={`w-full h-full flex flex-col items-center ${children ? "my-auto" : "justify-center"}`}>
+      <span className="text-7xl font-extrabold tracking-widest uppercase">{title}</span>
+      {children}
     </div>
   )
 };
+
+const Home = () => <ElementPlaceholder title="home"/>
+const MakePayment = () =>  <ElementPlaceholder title="make payment"/>
+const Landing = () =>  <ElementPlaceholder title="landing"/>
+
+const PaymentDetails = ({ validId }) => {
+  const checkId = useCallback((id) => validId ? validId(id) : false, [validId]);
+  const { id } = useParams();
+  const navigate = useNavigate();
+  useEffect(() => {
+    checkId(id) ? null : navigate("/payments/details/notfound", { replace: true });
+  }, [id, navigate, checkId])
+  return (
+    <ElementPlaceholder title={`PaymentId is ${id}`} />
+  )
+}
+
+const ErrorNotFound = ({ toPath = "/" }) => {
+  const [count, setCount] = useState(5);
+  const navigate = useNavigate();
+  useEffect(() => {
+    (count === 0) ? navigate(toPath, { replace: true }) : null;
+  }, [toPath, navigate, count])
+  useEffect(() => {
+    const countDown = () => setTimeout(() => {
+      setCount(() => (count - 1))
+    }, 1000);
+    (count > 0) ? countDown() : null;
+    return () => clearTimeout(countDown);
+  }, [count]);
+  return (
+    <div className="w-full h-full flex flex-col items-center justify-center text-4xl tracking-widest">
+      <span>Nothing to see here, redirecting in... <span className="font-extrabold">{ count }</span></span>
+    </div>
+  )
+}
+
+const LoginoutButton = ({ auth, setAuth }) => {
+  const navigate = useNavigate();
+  const click = () => {
+    setAuth(() => !auth);
+    navigate("/", { replace: true })
+  }
+  return (
+    <button onClick={click} className="h-full w-64 text-center py-2 border-black border-2">{ auth ? "logout" : "login"}</button>
+  )
+}
+
+
+const App = () => {
+
+  const [auth, setAuth] = useState(false);
+
+  const ids = [
+    1, 2, 3, 4, 5, 6, 7, 8, 9, 10
+  ].map(id => `${id}`);
+
+  const validId = (id) => ids.includes(id);
+
+  const protectedRoutes = (
+    <Route path="/" element={<FilletOutlet />}>
+      <Route index element={<Home />} />
+      <Route path="payments" element={<FilletOutlet />}>
+        <Route path="new" element={<FilletOutlet />}>
+          <Route index element={<MakePayment />} />
+          {/* Now any route path on /payments/new/* just redirects to .../new/ */}
+          <Route path="*" element={<Navigate to="/payments/new" replace={true} />} />
+        </Route>
+        <Route path="details" element={<FilletOutlet/>}>
+          {/* Exact url path equal to /payments/details/ will redirect to home (which has list of payments). */}
+          <Route exact index element={<Navigate to="/" replace={true} />}/>
+          <Route path="notfound" element={<ElementPlaceholder title="no payment for that id can be found"/>} />
+          <Route path=":id" element={<PaymentDetails validId={validId} />}/>
+        </Route>
+      </Route>
+    </Route>
+  )
+
+  const publicRoutes = (
+    <Route path="/" element={<FilletOutlet />}>
+      <Route index element={<Landing />} />
+     {/* <Route path="signup" element={<Signup />} /> */}
+    </Route>
+  )
+
+  const nav = (
+    <div className="w-full h-20 flex  items-center">
+      <div className="h-full w-auto flex items-center">ICPAY</div>
+      <div className="flex-1">{` `}</div>
+      {auth ? 
+        <div className="h-full flex items-center">
+          <Link to="/payments/new">Make Payment</Link>
+        </div>
+      : null}
+      {(import.meta.env.MODE === 'development') &&
+        <div className="w-auto h-full mx-16 flex items-center gap-4">
+         <Link to="/payments/details/1">{`/payments/details/1`}</Link>
+         <Link to="/payments/details/dneiderrortest">{`/payments/details/dneiderrortest`}</Link>
+         <Link to="/payments/details/nested/test">{`/payments/details/nested/test`}</Link>
+         <Link to="/payments/details/">{`/payments/details/`}</Link>
+         <Link to="/payments/new/extrapathoffnewtest">{`/payments/new/extrapathoffnewtest`}</Link>
+         <Link to="/dnepathtest">{`/dnepathtest`}</Link>
+         <Link to="/signup">{`/signup`}</Link>
+        </div>
+      }
+      <LoginoutButton auth={auth} setAuth={setAuth} />
+    </div>
+  )
+
+  return (
+    <BrowserRouter>
+      <FullWidthHeightParent>
+        {nav}
+        <Routes>
+          {auth ? protectedRoutes : publicRoutes}
+          <Route  path="*" element={<ErrorNotFound />} />
+        </Routes>
+      </FullWidthHeightParent>
+    </BrowserRouter>
+  )
+};
+
 
 // todo make this generic
 const useCanisterInitializer = () => {
@@ -50,68 +149,6 @@ const useCanisterInitializer = () => {
 };
 
 
-const PingDisplay = ({ pingCount, pingIt }) => {  
-
-  if (!pingCount) {
-    return <div className="w-1/2 text-center text-xl">loading...</div>
-  }
-
-  const getWordage = () => (
-    pingCount == 0 ? "not even once yet" 
-      : pingCount == 1 ? "once" 
-        : pingCount == 2 ? "twice" 
-          : pingCount > 2 ? `${pingCount} times` 
-            : "");
-
-  return (
-    <div className="text-center">
-      <span className="text-3xl tracking-wider leading-8">
-        The backend canister has been pinged by an authenticated user
-        <span className="font-extrabold">{` ${getWordage()}`}</span>.
-      </span>
-      <div className="mt-8 flex flex-col h-1/3">
-        <span className="text-3xl">Would you like to ping {`${pingCount > 0 ? "it again" : "the backend canister"}?`}</span>
-        <button className={`
-          mt-16 mx-auto p-4 rounded-full uppercase text-8xl tracking-widest transition w-fit
-          hover:scale-105 hover:bg-[#000000] hover:text-white hover:px-10 active:font-extrabold  active:scale-110 focus:scale-125`} 
-          onClick={pingIt}
-            >
-            ping it
-        </button>
-      </div>
-    </div>
-  )
-};
-
-const DebugInfo = ({ vals, initShow = false }) => {
-  const vvals = vals ?? {
-    // Note using "import-dot-meta-dot-env" can cause Vite to bug out during build. 
-    ["import meta env"]: import.meta.env,
-
-  };
-  const [show, setShow] = useState(null);
-  useEffect(() => { setShow(() => initShow)}, [initShow]);
-  return (
-    <div className="fixed w-1/2">
-      <button 
-        onClick={() => setShow(show => !show)} 
-        className="font-extrabold text-4xl p-4 rounded-full shadow-lg"
-          >{show ? "X" : "DEBUG"}
-      </button>
-      {show && 
-      <div className="bg-black text-white mt-2 rounded-lg px-4 py-8">
-        <ul className="w-full flex flex-col break-words gap-4">
-            {[...Object.entries(vvals)].map(([key, value]) => (
-              <li key={`${key}${value}`}>
-                <span className="text-4xl font-extrabold">{`${key} `}</span>
-                <span>{`${`${value}`==='[object Object]' ? JSON.stringify(value) : value }`}</span>
-              </li>
-            ))}
-        </ul> 
-      </div>}
-    </div>
-  )
-};
 
 
 export default App;
