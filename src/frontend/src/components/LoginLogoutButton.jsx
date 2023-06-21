@@ -8,12 +8,24 @@ const defaultLoginLogoutButtonStyles = `
   active:bg-slate-700 active:border-4 active:scale-102 active:translate-y-2
 `;
 
-const LoginLogoutButton = ({ buttonUtilityStyles = defaultLoginLogoutButtonStyles }) => {
+const LoginLogoutButton = ({ buttonUtilityStyles = defaultLoginLogoutButtonStyles, changeCallback }) => {
   const { isAuthenticated, login, logout } = useCanister();
+
+  const click = () => {
+    if (isAuthenticated) {
+      logout();
+    } else {
+      login();
+    }
+    if (changeCallback) {
+      changeCallback(!isAuthenticated);
+    }
+  }
+
   return (
     <button 
       className={buttonUtilityStyles}
-      onClick={() => isAuthenticated ? logout() : login() }
+      onClick={click}
         >
         { isAuthenticated ? "logout" : "login"}
     </button>  

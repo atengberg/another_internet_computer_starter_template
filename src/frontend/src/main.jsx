@@ -16,8 +16,8 @@ const notSupported = (
   </div>
 );
 
-// Check web workers are supported (though CanIUse suggests this is likely unnecessary).
-const supported = !!typeof(Worker);
+// Check web workers supported; Firefox doesn't yet by default allow module type workers.
+const supported = !!typeof(Worker) || !(navigator.userAgent.toLowerCase().indexOf('firefox') > -1)
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
