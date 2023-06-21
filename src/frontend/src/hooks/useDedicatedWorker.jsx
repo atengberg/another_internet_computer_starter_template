@@ -1,7 +1,9 @@
 import { useRef, useLayoutEffect } from 'react';
 
-// Passing in url location seem to trigger failure of asset canister to create worker.
-const useWorker = (onMessageCallback) => {
+// Passing in url location seem to trigger failure of asset canister to create worker,
+// so instead hardcorded (can only )
+
+const useDedicatedWorker = (onMessageCallback) => {
   const workerRef = useRef(null);
     // Since we want the workerRef populated before the rest, useLayoutEffect is used. 
   useLayoutEffect(() => {
@@ -25,4 +27,4 @@ const useWorker = (onMessageCallback) => {
   }
 };
 
-export default useWorker;
+export default useDedicatedWorker;

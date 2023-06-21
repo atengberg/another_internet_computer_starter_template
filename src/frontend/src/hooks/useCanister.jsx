@@ -1,6 +1,5 @@
 import { useContext } from 'react';
-import { CanisterContext } from '../components/CanisterProvider';
+import { useCanisterBinding } from '../components/CanisterProvider';
 
-const useCanister = () => useContext(CanisterContext);
-
+const useCanister = () => useContext(useCanisterBinding);
 export default useCanister;

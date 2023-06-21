@@ -1,6 +1,6 @@
 import { useMemo, createContext, useReducer, useCallback } from 'react';
 import useInternetIdentity from '../hooks/useInternetIdentity';
-import useWorker from '../hooks/useWorker';
+import useDedicatedWorker from '../hooks/useDedicatedWorker';
 
 const CanisterContext = createContext({});
 
@@ -30,16 +30,17 @@ const CanisterProvider = ({ children }) => {
     reducer,
     initReducerState
   );  
-
-  const { postMessage } = useWorker(dispatch);
+  const { postMessage } = useDedicatedWorker(dispatch);
   const {
     isAuthenticated,
     login,
     logout,
   } = useInternetIdentity({
+    // onUserLoggedIn not suited for initialization (page refresh still authenticated but then no init).
     onUserLoggedOut: () => dispatch({ type: "RESET" })
   });
-
+  
+  // Note: better to declare specifics methods than expose either of these in the context. 
   const taskUi = useCallback((data) => dispatch(data), []);
   const taskWorker = useCallback((data) => postMessage(data), [postMessage]);
 
@@ -67,4 +68,5 @@ const CanisterProvider = ({ children }) => {
 };
 
 export default CanisterProvider;
-export { CanisterContext };
+
+export { CanisterContext as useCanisterBinding };

@@ -1,6 +1,13 @@
 import { useState, useRef, useCallback, useEffect } from 'react';
 import { AuthClient } from '@dfinity/auth-client';
 
+// Note the original AuthClient II demo includes principal, identity and actor 
+// as part of its state. That may be more useful if using newer React Router 
+// data router with loader and actions (as callbacks, such as with the web worker
+// are not supported with loader and actions--however there is some work with
+// setting up that with the comlink library).
+
+
 const useInternetIdentity = (callbacks = {}) => {
   const {
     onUserLoggedIn = () => console.log("onUserLoggedIn"),
