@@ -12,14 +12,8 @@ const LoginLogoutButton = ({ buttonUtilityStyles = defaultLoginLogoutButtonStyle
   const { isAuthenticated, login, logout } = useCanister();
 
   const click = () => {
-    if (isAuthenticated) {
-      logout();
-    } else {
-      login();
-    }
-    if (changeCallback) {
-      changeCallback(!isAuthenticated);
-    }
+    isAuthenticated ? logout() : login();
+    changeCallback ? changeCallback(!isAuthenticated) : null;
   }
 
   return (

@@ -4,9 +4,9 @@ import { useEffect, useState } from "react";
 // though can be used otherwise. Here just in case. 
 const DebugInfo = ({ vals, initShow = false }) => {
   const vvals = vals ?? {
-    // Note using "import-dot-meta-dot-env" can cause Vite to bug out during build. 
+    // Note using string literals with "import-dot-meta-dot-env" (replace dot -> .) 
+    // can cause Vite to bug out during build. 
     ["import meta env"]: import.meta.env,
-
   };
   const [show, setShow] = useState(null);
   useEffect(() => { setShow(() => initShow)}, [initShow]);
