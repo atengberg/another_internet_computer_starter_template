@@ -3,7 +3,10 @@ export default {
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}"
   ],
-  theme: {},
+  //darkMode: 'class', add when dark mode is either defined in theme or all over.
+  theme: {
+
+  },
   plugins: [
      require('tailwindcss-debug-screens'),
   ]

@@ -1,12 +1,15 @@
-import { BrowserRouter } from "react-router-dom";
+
 import AppRoutes from "./Routing";
+import useCanister from "./hooks/useCanister";
 
 const App = () => {
+
+  // Could also use useCanister in AppRoutes, just here for demonstration.
+  const { isAuthenticated } = useCanister();
+
   return (
-    <BrowserRouter>
-      <AppRoutes />
-    </BrowserRouter>
+    <AppRoutes isAuthenticated={isAuthenticated} />
   )
-}
+};
 
 export default App;
