@@ -1,3 +1,5 @@
+import { useLayoutEffect, useRef } from 'react';
+import ToolTip from './ToolTip';
 import BiMoon from '~icons/bi/moon' // outlined
 import BiMoonFill from '~icons/bi/moon-fill'
 import BiSun from '~icons/bi/sun'
@@ -14,20 +16,6 @@ const DarkModeToggle = (args = {}) => {
   const adjustMoonSize = (size * .8) + 0.0;
   const sunSizeStyle = { width: `${size}em`, height: `${size}em` };
   const moonSizeStyle = { width: `${adjustMoonSize}em`, height: `${adjustMoonSize}em` };
-  // ~Probably neeed a break or switch to something more meaningful, 
-  // anyways pass in style or 1 2 3 4 to place tooltip is why all "this":
-  let ttp = toolTipPlacement ?? 2;
-  if (!isNaN(parseInt(ttp))) {
-    switch (`${ttp}`) {
-      case "1": ttp = "-top-6 left-3";      break;
-      case "2": ttp = "-bottom-6 left-3";   break;
-      case "3": ttp = "-bottom-6 right-3";  break;
-      case "4": ttp = "-top-6 right-3";     break;
-      default:  ttp = "-top-6 -left-3";     break;
-    }
-  } else {
-    ttp = toolTipPlacement;
-  };
   return (
     <div className="relative group" >
       <button className={`z-50 flex gap-3 flex-nowrap items-center px-4 py-2 group z-70`} onClick={() => toggleDarkModeFunction()} >
@@ -44,9 +32,11 @@ const DarkModeToggle = (args = {}) => {
             : <BiMoon className="transition duration-300 group-active:-rotate-90  z-40"  style={moonSizeStyle}/>}
         </div>
       </button>
-      <div className={`absolute ${ttp} z-10 opacity-0  w-40 text-center transition duration-300 group-hover:opacity-100 group-hover:z-90`}>
-        <span className="font-bold tracking-tight p-2 rounded-md">toggle {`${isDarkMode ? "light" : "dark"}`} mode</span>
-      </div>
+      <ToolTip 
+
+        text={`toggle ${isDarkMode ? "light" : "dark"} mode`} 
+        toolTipPlacement={3}
+        />
     </div>
   )
 };
