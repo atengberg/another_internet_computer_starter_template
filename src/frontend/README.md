@@ -18,6 +18,10 @@ As a result, if the default generated type declarations are imported and used in
 
 Remember that the dev server hosting the frontend may behave differently than the asset canister hosting the frontend. 
 
+## also added: vite plugin unplugin-icons
+
+The entire icon set installed by `npm i -D @iconify/json` was added, and vite only bundles the icons actually used. However, specific icon (sets) can be downloaded and used instead. Also custom icon (sets) can be used. Using the auto-importer, may need to setup actual resolver for custom. 
+
 ## frontend "architecture"
 
 `CanisterProvider` creates `CanisterContext` made available by the `useCanister` hook.
