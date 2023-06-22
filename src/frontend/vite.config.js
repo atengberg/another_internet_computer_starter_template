@@ -1,8 +1,7 @@
 import  { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import EnvironmentPlugin from 'vite-plugin-environment'
-
-
+import Icons from 'unplugin-icons/vite';
 
 export default defineConfig({
   plugins: [
@@ -11,6 +10,12 @@ export default defineConfig({
     EnvironmentPlugin("all", { prefix: "CANISTER_", defineOn: "import.meta.env" }),
     // Spreads all the envars from .env prefixed with "DFX_" onto import.meta.env. 
     EnvironmentPlugin("all", { prefix: "DFX_", defineOn: "import.meta.env" }),
+    Icons({ 
+      autoInstall: true, // autoInstall is expiremental.
+      compiler: 'jsx',
+      jsx: 'react',
+      // see https://github.com/antfu/unplugin-icons for many more options (custom, auto import, etc).
+    })
   ],
   build: {
     outDir: "dist/",
