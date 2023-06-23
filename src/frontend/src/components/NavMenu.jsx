@@ -10,7 +10,7 @@ import PixelarticonsDebug from '~icons/pixelarticons/debug'
 
 // Todo let orientation be prop style (horizontal, vertical, etc).
 const NavMenu = () => {
-  const { darkMode, toggleDarkMode } = useDarkModeHack();
+  const { darkMode, toggleDarkMode } = useDarkModeHack({});
   const { isAuthenticated } = useCanister();
   const principal = "principalNYI";
   const navigate = useNavigate();
@@ -18,10 +18,10 @@ const NavMenu = () => {
   const [showDebugOptions, setShowDebugOptions] = useState(false);
 
   return (
-    <div className="w-full px-4 h-20 flex items-center">
+    <div className="w-full px-4 h-20 flex items-center select-none">
       <div className="w-auto h-full flex items-center z-10 group">
         <Link to="/" className="px-2 py-4 flex gap-2 text-2xl transition duration-300 hover:-translate-y-1 active:scale-105">
-          <GameIconsTakeMyMoney className="mt-1"/>
+        <GameIconsTakeMyMoney className="mt-1"/>
           <span className="font-extralight tracking-widest text-3xl">ICPAY</span>
         </Link> 
       </div>
@@ -46,14 +46,14 @@ const NavMenu = () => {
         </div>
       : null}
       {(import.meta.env.DEV && showDebugOptions) 
-        ? <div className="h-full mx-4 flex items-center gap-4">
+        ? <div className="h-full mx-2 flex items-center gap-4">
             <Link to="/test">{`to: "/test"`}</Link>
             <Link to="/test/test">{`to: "/test/test"`}</Link>
             <Link to="/chops/c/404">{`to: "/chops/c/404"`}</Link>
             <Link to="/chops/c/abcde-12345-abcde-54321">{`to: "/chops/c/abcde-12345-abcde-54321"`}</Link>
-            <button className="text-3xl" onClick={() => setShowDebugOptions(false)}><PixelarticonsDebugOff /></button>
+            <button className="text-3xl p-2" onClick={() => setShowDebugOptions(false)}><PixelarticonsDebugOff /></button>
           </div>
-        : <button className="mx-4 text-3xl" onClick={() => setShowDebugOptions(true)}><PixelarticonsDebug /></button> }
+        : <button className="mx-2 p-2 text-3xl" onClick={() => setShowDebugOptions(true)}><PixelarticonsDebug /></button> }
       <DarkModeToggle isDarkMode={darkMode} toggleDarkModeFunction={toggleDarkMode} toolTipPlacement={3}/>
       <LoginLogoutButton changeCallback={() => navigate("/")} />
     </div>

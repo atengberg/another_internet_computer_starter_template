@@ -12,15 +12,11 @@ import { useState, useLayoutEffect, useCallback, useMemo } from 'react';
 const useDarkModeHack = ({
   darkBackgroundColor = `#000`
 }) => {
-  const [toggle,setToggle] = useState(false);
-  useLayoutEffect(() => {
-    const isDarkMode = (
-      localStorage.themeMode === 'dark' 
-      || (!('themeMode' in localStorage) 
-      && window.matchMedia('(prefers-color-scheme: dark)').matches)
-    );
-    setToggle(isDarkMode);
-  }, []);
+  const [toggle,setToggle] = useState((
+    localStorage.themeMode === 'dark' 
+    || (!('themeMode' in localStorage) 
+    && window.matchMedia('(prefers-color-scheme: dark)').matches)
+  ));
 
   useLayoutEffect(() => {
     document.body.style.filter = toggle ? `invert(100%)` : null;
@@ -29,17 +25,16 @@ const useDarkModeHack = ({
       document.documentElement.classList[toggle ? 'add' : 'remove']('dark'); */
   }, [darkBackgroundColor, toggle])
 
-  // Probably overkill
-  const darkMode = useMemo(() => toggle, [toggle]);
   const toggleDarkMode = useCallback(() => { 
     toggle ? localStorage.removeItem("themeMode") : localStorage.setItem("themeMode", "dark");
     setToggle(() => !toggle);
   }, [toggle, setToggle]);
+
   return useMemo(() => ({ 
-    darkMode, 
+    darkMode: toggle, 
     toggleDarkMode 
   }), [ 
-    darkMode, 
+    toggle, 
     toggleDarkMode 
   ]);
 };

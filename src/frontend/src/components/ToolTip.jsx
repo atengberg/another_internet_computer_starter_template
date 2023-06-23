@@ -35,7 +35,7 @@ const ToolTip = ({
     <div 
       ref={tipRef}
       className={`absolute ${ttp} z-10 opacity-0  text-center transition duration-300 group-hover:opacity-100 group-hover:z-90`}>
-      <span className={`whitespace-nowrap ${textStyles}`}>{text}</span>
+      <span className={`whitespace-nowrap ${textStyles} select-none`}>{text}</span>
     </div>
   )
 };
