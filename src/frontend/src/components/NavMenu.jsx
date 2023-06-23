@@ -51,9 +51,9 @@ const NavMenu = () => {
             <Link to="/test/test">{`to: "/test/test"`}</Link>
             <Link to="/chops/c/404">{`to: "/chops/c/404"`}</Link>
             <Link to="/chops/c/abcde-12345-abcde-54321">{`to: "/chops/c/abcde-12345-abcde-54321"`}</Link>
-            <button className="text-3xl p-2" onClick={() => setShowDebugOptions(false)}><PixelarticonsDebugOff /></button>
+            <button className="text-3xl p-2 z-10" onClick={() => setShowDebugOptions(false)}><PixelarticonsDebugOff /></button>
           </div>
-        : <button className="mx-2 p-2 text-3xl" onClick={() => setShowDebugOptions(true)}><PixelarticonsDebug /></button> }
+        : <button className="mx-2 p-2 text-3xl z-10" onClick={() => setShowDebugOptions(true)}><PixelarticonsDebug /></button> }
       <DarkModeToggle isDarkMode={darkMode} toggleDarkModeFunction={toggleDarkMode} toolTipPlacement={3}/>
       <LoginLogoutButton changeCallback={() => navigate("/")} />
     </div>
