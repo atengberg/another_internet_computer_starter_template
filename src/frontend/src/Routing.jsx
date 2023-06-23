@@ -1,17 +1,10 @@
-import { useState, useEffect, } from 'react';
-import { Outlet, useNavigate, Routes, Route, useParams } from 'react-router-dom';
+
+import { Outlet, Routes, Route, useParams } from 'react-router-dom';
 
 import NavMenu from './components/NavMenu';
 import Home from './pages/Home';
 import Landing from './pages/Landing';
 import CountingDownToNavigation from './components/CountingDownToNavigation';
-
-
-
-
-
-
-
 
 const AppRoutes = ({ isAuthenticated }) => {
 

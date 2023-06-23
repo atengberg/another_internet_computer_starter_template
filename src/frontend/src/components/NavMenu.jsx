@@ -4,7 +4,7 @@ import useCanister from "../hooks/useCanister";
 import LoginLogoutButton from "./LoginLogoutButton";
 import useDarkModeHack from "../hooks/useDarkModeHack";
 import DarkModeToggle from "./DarkModeToggle";
-import IconoirDeveloper from '~icons/iconoir/developer'
+import GameIconsTakeMyMoney from '~icons/game-icons/take-my-money'
 import PixelarticonsDebugOff from '~icons/pixelarticons/debug-off'
 import PixelarticonsDebug from '~icons/pixelarticons/debug'
 
@@ -21,8 +21,8 @@ const NavMenu = () => {
     <div className="w-full px-4 h-20 flex items-center">
       <div className="w-auto h-full flex items-center z-10 group">
         <Link to="/" className="px-2 py-4 flex gap-2 text-2xl transition duration-300 hover:-translate-y-1 active:scale-105">
-          <IconoirDeveloper className="mt-1"/>
-          <span className="font-extralight tracking-widest text-3xl">AICST</span>
+          <GameIconsTakeMyMoney className="mt-1"/>
+          <span className="font-extralight tracking-widest text-3xl">ICPAY</span>
         </Link> 
       </div>
       <div className="flex-1">{` `}</div>

@@ -5,13 +5,11 @@ import BiMoonFill from '~icons/bi/moon-fill'
 import BiSun from '~icons/bi/sun'
 import BiSunFill from '~icons/bi/sun-fill'
 
-const DarkModeToggle = (args = {}) => {
-  const {
-    isDarkMode = false, 
-    toggleDarkModeFunction = () => 0, 
-    size = 2, 
-    toolTipPlacement // Cartesian coords (+x+y 1, +x-y 2, -x-y 3, -x+y 4).
-  } = args;
+const DarkModeToggle = ({
+  isDarkMode = false, 
+  toggleDarkModeFunction = () => 0, 
+  size = 2, 
+}) => {
   // Moon is slightly larger by default.
   const adjustMoonSize = (size * .8) + 0.0;
   const sunSizeStyle = { width: `${size}em`, height: `${size}em` };
@@ -33,7 +31,6 @@ const DarkModeToggle = (args = {}) => {
         </div>
       </button>
       <ToolTip 
-
         text={`toggle ${isDarkMode ? "light" : "dark"} mode`} 
         toolTipPlacement={3}
         />
