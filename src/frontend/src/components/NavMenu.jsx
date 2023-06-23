@@ -18,7 +18,7 @@ const NavMenu = () => {
   const [showDebugOptions, setShowDebugOptions] = useState(false);
 
   return (
-    <div className="w-full px-4 h-20 flex items-center">
+    <div className="w-full px-4 h-20 flex items-center select-none">
       <div className="w-auto h-full flex items-center z-10 group">
         <Link to="/" className="px-2 py-4 flex gap-2 text-2xl transition duration-300 hover:-translate-y-1 active:scale-105">
         <IconoirDeveloper className="mt-1"/>
