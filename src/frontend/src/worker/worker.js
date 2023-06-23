@@ -8,7 +8,6 @@ async function getActor() {
 } 
 
 async function ping() {
-  console.log(`ping`)
   const backend = await getActor();
   if (backend) {
     const pingCount = await backend.ping();

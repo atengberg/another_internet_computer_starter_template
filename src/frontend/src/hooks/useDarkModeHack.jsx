@@ -9,11 +9,9 @@ import { useState, useLayoutEffect, useCallback, useMemo } from 'react';
 // (or use tailwind theme dark class modifier once defined).
 
 // Note this will fail for images, video (since the filter with invert, need to deselect). 
-const useDarkModeHack = (args = {}) => {
-  const {
-    darkBackgroundColor = `#000`
-  } = args;
-
+const useDarkModeHack = ({
+  darkBackgroundColor = `#000`
+}) => {
   const [toggle,setToggle] = useState(false);
   useLayoutEffect(() => {
     const isDarkMode = (
