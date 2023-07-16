@@ -7,6 +7,16 @@
         "output": "src/declarations/backend"
       }
     },
+    "icrc1_token_canister": {
+      "type": "custom",
+      "wasm": "src/icrc1-token-canister/icrc1.wasm",
+      "candid": "src/icrc1-token-canister/icrc1.did",
+      "declarations": {
+        "node_compatibility": true,
+        "output": "src/declarations/icrc1-tlc/"
+      },
+      "COMMENT": "BY ADDING key remote and specifying candid and mainnet id, like II below, will work online as well"
+    },
     "internet_identity": {
       "type": "custom",
       "candid": "https://github.com/dfinity/internet-identity/releases/latest/download/internet_identity.did",
@@ -25,7 +35,8 @@
     "frontend": {
       "dependencies": [
         "backend",
-        "internet_identity"
+        "internet_identity",
+        "icrc1_token_canister"
       ],
       "frontend": {
         "entrypoint": "src/frontend/index.html"
@@ -43,9 +54,9 @@
   "defaults": {
     "build": {
       "args": "",
-      "packtool": ""
+      "packtool": "mops sources"
     }
   },
-  "output_env_file": "src/frontend/.env",
+  "output_env_file": "./.env",
   "version": 1
 }

@@ -19,18 +19,29 @@
     "AuthClient"
   ],
   "scripts": {
-    "setup": "cd src/frontend; npm ci; cd ../..; npm ci; dfx deploy; dfx generate backend",
+    "setup": "cd src/frontend; npm ci --legacy-peer-deps; cd ../..; npm ci --legacy-peer-deps; node ./setup.js",
     "build": "cd src/frontend; npm run build",
     "start": "run-p frontend backend",
     "backend": "mo-dev --generate --deploy -y",
     "frontend": "cd src/frontend; npm run start",
-    "lint": "cd src/frontend; npm run lint"
+    "lint": "cd src/frontend; npm run lint",
+    "sources": "mops sources",
+    "postinstall": "mops install",
+    "test": "cd src/frontend; npm ci --legacy-peer-deps; cd ../..; npm ci --legacy-peer-deps; node ./setup.js --testing"
   },
   "engines": {
     "node": "^12 || ^14 || ^16 || ^18"
   },
   "dependencies": {
-    "mo-dev": "^0.10.1"
+    "@dfinity/agent": "^0.17.0",
+    "@dfinity/candid": "^0.17.0",
+    "@dfinity/ledger": "^0.0.11",
+    "@dfinity/principal": "^0.17.0",
+    "@dfinity/utils": "^0.0.18",
+    "common-tags": "^1.8.2",
+    "dotenv": "^16.3.1",
+    "mo-dev": "^0.10.1",
+    "zx": "^7.2.3"
   },
   "devDependencies": {
     "npm-run-all": "^4.1.5"

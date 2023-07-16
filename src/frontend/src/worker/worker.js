@@ -1,48 +1,137 @@
-import { idlFactory } from "../../../declarations/backend/backend.did.js";
-import createWorkerActor from "./createWorkerActor.js";
 
-// Note to self: be sure when deploying between local and mainnet, the deploy was run to 
-// actually update the .env accordingly. 
-async function getActor() {
-  return await createWorkerActor(import.meta.env.CANISTER_ID_BACKEND, idlFactory);
-} 
+// Need to manually polyfill in WebWorker's context to make candid Nat's transferrable. 
+BigInt.prototype.toJSON = function () { return this.toString(); };
 
-async function ping() {
-  const backend = await getActor();
-  if (backend) {
-    const pingCount = await backend.ping();
-    const payload = `${pingCount}`;
-    self.postMessage({ type: "SET_VALUE", payload, key: "pingCount" });
+import { get, set } from 'idb-keyval';
+import getActor  from "./createWorkerActor.js";
+import { stateKeys, actionTypes } from "../utils/enums.js";
+import {
+  parseAccountBalanceResponse,
+  parseTokenCanisterMetadataResponse,
+  parseAccountPaymentsResponse,
+  parsePayment,
+} from "../utils/utils.js";
+
+const pollPeriodMs = 10000;
+let syncTimer;
+
+function onMessage ({ data }) {
+  const { type, key, args = null } = data;
+  console.info(`WebWorker::self.onmessage() data ${JSON.stringify({ data , key, args })}`)
+  handleMessage({ type, key, args });
+};
+self.addEventListener("message", onMessage);
+
+function handleMessage({
+  type,
+  key,
+  args,
+} = {}) {
+  console.log(`${JSON.stringify({ type, key, args})}`)
+  switch (type) {
+    case actionTypes.QUERY: 
+      switch (key) {
+        case stateKeys.canisterMetadata: {
+          const call = async () => {
+            const actor = await getActor(true);
+            queryCanister({
+              actor,
+              method: 'get_icrc1_token_canister_metadata',
+              key,
+              responseHandler: parseTokenCanisterMetadataResponse
+            });
+          }
+          Promise.all([ call(), checkCache({ key }) ]);
+          return;
+        };
+        case stateKeys.accountStateSync: 
+          Promise.all([ 
+            pollingCall(), 
+            checkCache({ key: stateKeys.accountPayments }),
+            checkCache({ key: stateKeys.accountBalance })
+          ]);
+          //syncTimer = setInterval(() => syncCall(args?.testing), 10000);
+          return;
+      }
+      break;
+    case actionTypes.UPDATE: {
+      switch (key) {
+        case stateKeys.payment: {
+          // REMEMBER TO REMOVE DELAY
+          setTimeout(() => {
+            sendPaymentCall({ args, key });
+          }, 10000);
+          return;
+        };
+      };
+      break;
+    };
+    case actionTypes.RESET:
+      clearInterval(syncTimer);
+      syncTimer = null;
+      self.close();
+      return;
+  };
+  throw new Error('WebWorker::handlemessage called without an agreeable type or key! ' + JSON.stringify({ type, key, args }));
+}
+
+async function checkCache({ key }) {
+  const cached = await get(key);
+  if (cached) {
+    const result = JSON.parse(cached);
+    self.postMessage({ type: actionTypes.VALUE, key, payload: { ...result.ok }});
   }
 };
 
-async function queryPing() {
-  const backend = await getActor();
-  if (backend) {
-    const pingCount = `${await backend.getPingCount()}`;
-    self.postMessage({ type: "SET_VALUE", payload: pingCount, key: "pingCount" });
+async function queryCanister({ 
+  actor: { actor, principal }, 
+  method,
+  key,
+  responseHandler,
+} = {}) {
+  const response = await actor[method]();
+  const result = responseHandler(response);
+  if (result?.ok) {
+    self.postMessage({ type: actionTypes.VALUE, key, payload: { ...result.ok }});
+  } else {
+    self.postMessage({ type: actionTypes.ERROR, key, payload: { ...result.err }});
   }
-}
+  await set(`key-${principal}`, JSON.stringify(result));
+};
 
-function onMessage ({ data }) {
-  console.info(`WebWorker::self.onmessage() data ${JSON.stringify(data)}`)
-  const { type, payload } = data;
-  switch (type) {
-    case "PING":
-      ping();
-      return;
-    case "QUERY_PING":
-      queryPing();
-      return;
-    default:
-      console.info('WebWorker::self.onmessage() with no data action type.')
-  };
-}
+async function pollingCall() {
+  const actor = await getActor(false);
+  Promise.all([
+    queryCanister({
+      actor,
+      method: 'get_account_balance',
+      key: stateKeys.accountBalance,
+      responseHandler: parseAccountBalanceResponse
+    }),
+    queryCanister({
+      actor,
+      method: 'get_account_payments',
+      key: stateKeys.accountPayments,
+      responseHandler: parseAccountPaymentsResponse
+    })
+  ]);
+};
 
-self.addEventListener("message", onMessage);
+async function sendPaymentCall({ key, args }) {
+  const { actor } = await getActor(false);
+  const response = await actor.send_payment(args);
+  const { result, payment: p } = response;
+  const payment = parsePayment(p);
+  self.postMessage({ type: actionTypes.UPDATE, key, payload: { payment }});
+  if (result?.err) {
+    setTimeout(() => {
+      self.postMessage({ type: actionTypes.ERROR, key, payload: { ...result.err } });
+    }, 11);
+  }
+};
 
 self.addEventListener("error", e => {
   //const { lineno, filename, message } = e;
-  console.error(`webworker error ${JSON.stringify(e)}`)
+  console.error(`webworker error ${JSON.stringify(e)}`);
   throw e;
-})
+});

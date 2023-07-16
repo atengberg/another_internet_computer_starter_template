@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback, useEffect } from 'react';
+import { useState, useRef, useCallback, useEffect, useMemo } from 'react';
 import { AuthClient } from '@dfinity/auth-client';
 
 // Note the original AuthClient II demo includes principal, identity and actor 
@@ -8,27 +8,24 @@ import { AuthClient } from '@dfinity/auth-client';
 // setting up that with the comlink library).
 
 
-const useInternetIdentity = (callbacks = {}) => {
-  const {
-    onUserLoggedIn = () => console.log("onUserLoggedIn"),
-    onUserLoggedOut = () => console.log("onUserLoggedOut"),
-    onIdle = () => console.log("onUserIdle")
-  } = callbacks;
+const useInternetIdentity = ({
+  onUserLoggedOut,
+} = {}) => {
 
   const authClientRef = useRef(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  const updateAuth = async (client) => {
+  const updateAuth = useCallback(async (client) => {
     if (!client) throw new Error("Cannot update auth state without an auth client!!!");
     const authenticated = await client.isAuthenticated();
     authClientRef.current = client;
-    setIsAuthenticated(authenticated);
-  };
+    setIsAuthenticated(() => authenticated);
+  }, []);
 
   const createSetAuthClient = useCallback(() => {
     // Use onIdle callback to redirect route, etc.
-    AuthClient.create({ idleOptions: { onIdle }}).then(updateAuth);
-  }, [onIdle]);
+    AuthClient.create().then(updateAuth);
+  }, [updateAuth]);
 
   useEffect(() => {
     // Initialize an authClient.
@@ -39,14 +36,13 @@ const useInternetIdentity = (callbacks = {}) => {
     authClientRef.current?.login({
       identityProvider:
         import.meta.env.DFX_NETWORK === 'ic'
-          ? 'https://identity.ic0.app/#authorize'
+          ? 'https://identity.ic0.io/#authorize'
           : `http://localhost:4943?canisterId=${import.meta.env.CANISTER_ID_INTERNET_IDENTITY}#authorize`,
       onSuccess: async () => {
-        await updateAuth(authClientRef.current)
-        onUserLoggedIn();
+        await updateAuth(authClientRef.current);
       }
     });
-  }, [onUserLoggedIn]);
+  }, [updateAuth]);
 
   const logout = useCallback(async () => {
     await authClientRef.current?.logout();
@@ -58,11 +54,26 @@ const useInternetIdentity = (callbacks = {}) => {
     onUserLoggedOut
   ]);
 
-  return {
-    isAuthenticated,
-    login,
-    logout,
-  };
+  const dev = useMemo(() => {
+    // Get from environmental variable.
+    const isTesting = (import.meta.env.TESTING || false);
+    const login = () => setIsAuthenticated(() => true);
+    const logout = () => setIsAuthenticated(() => false);
+    return {
+      isTesting, 
+      login: isTesting ? login : () => {},
+      logout: isTesting ? logout : () => {},
+    };
+  }, []);
+
+  return useMemo(() => {
+    return {
+      dev,
+      login,
+      logout,
+      isAuthenticated
+    };
+  }, [login, logout, dev, isAuthenticated]);
 };
 
 export default useInternetIdentity;

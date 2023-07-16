@@ -3,7 +3,10 @@ import ReactDOM from 'react-dom/client';
 import CanisterProvider from './components/CanisterProvider.jsx';
 import { BrowserRouter as Router } from 'react-router-dom';
 import App from './App.jsx';
+import './reset.css';
 import './index.css';
+
+global.BigInt.prototype.toJSON = function () { return this.toString() };
 
 const dapp = (
   <Router>
@@ -14,7 +17,7 @@ const dapp = (
 );
 
 const notSupported = (
-  <div className="w-full mt-1/3 text-center italic text-3xl">
+  <div className="mt-[34%] w-full text-center text-3xl">
     This dapp requires a browser that supports web workers.
   </div>
 );
@@ -23,7 +26,6 @@ const notSupported = (
 const supported = !!typeof(Worker) || !(navigator.userAgent.toLowerCase().indexOf('firefox') > -1)
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
-    { supported ? dapp : notSupported }
-  </React.StrictMode>
+  supported ? dapp : notSupported 
 );
+

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="overflow-hidden">
   <head>
     <!-- Seems to prevent later creating and importing of worker as cors violation. -->
     <link rel="modulepreload" href="./src/worker/worker.js" />
@@ -7,15 +7,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>another internet computer starter template</title>
     <link rel="icon" href="/assets/favicon.ico" />
+
+    <!-- Satoshi (no italics) -->
+    <link href="https://api.fontshare.com/v2/css?f[]=satoshi@1,900,700,500,301,701,300,501,401,901,400,2&display=swap" rel="stylesheet">
+    <!-- Spectral -->
+    <link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap" rel="stylesheet">
+    <!-- Figtree -->
+    <link href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <!-- Dm Sans -->
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap" rel="stylesheet">
+    <!-- Quicksand (no italics)-->
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Courier Prime (monospace) -->
+    <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+    <!-- Manrope -->
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet"> 
+    <!-- Inconsolata (monospace) -->
+    <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@200;300;400;500;600;700;800;900&display=swap" rel="stylesheet"> 
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root" class="h-screen"></div>
     <script type="module" src="/src/main.jsx"></script>
     <!--Script polyfills global.-->
     <script>window.global ||= window</script>
     <script type="module">
       // Add the debug screens overlay in development mode.
-      document.body.className += (import.meta.env.DEV ? 'debug-screens' : '');
+      document.body.className += (import.meta.env.DEV ? ' debug-screens' : '');
     </script>
   </body>
 </html>

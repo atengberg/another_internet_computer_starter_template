@@ -4,16 +4,20 @@ import EnvironmentPlugin from 'vite-plugin-environment'
 import Icons from 'unplugin-icons/vite';
 
 export default defineConfig({
+  envDir: "../../",
   plugins: [
     react(),
     // Spreads all the envars from .env prefixed with "CANISTER_" onto import.meta.env. 
     EnvironmentPlugin("all", { prefix: "CANISTER_", defineOn: "import.meta.env" }),
     // Spreads all the envars from .env prefixed with "DFX_" onto import.meta.env. 
     EnvironmentPlugin("all", { prefix: "DFX_", defineOn: "import.meta.env" }),
+    EnvironmentPlugin({ 'TESTING': true}, { defineOn: "import.meta.env" }),
     Icons({ 
       autoInstall: true, // autoInstall is expiremental.
       compiler: 'jsx',
       jsx: 'react',
+      // Let's tailwind style them as text (without interference).
+      defaultStyle: "width: 100%; height: 100%",
       // see https://github.com/antfu/unplugin-icons for many more options (custom, auto import, etc).
     })
   ],
@@ -52,4 +56,3 @@ export default defineConfig({
 })
 
 
-// https://www.npmjs.com/package/unplugin-icons
