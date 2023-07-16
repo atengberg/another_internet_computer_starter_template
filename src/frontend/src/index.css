@@ -2,7 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-
 @layer base {
 
   html {
@@ -15,17 +14,7 @@
   }
 
   body {
-    @apply 
-      pb-safe scroll-smooth
-      bg-gradient-light text-e8-black
-      dark:bg-gradient-dark dark:text-e8-white;
-  }
-
-  details > summary {
-    list-style: none;
-  }
-  details > summary::-webkit-details-marker {
-    display: none;
+    @apply pb-safe scroll-smooth bg-gradient-light text-e8-black dark:bg-gradient-dark dark:text-e8-white;
   }
   
   /* Firefox - Not supported (anyways). */
@@ -34,8 +23,8 @@
     scrollbar-color: auto; 
   }
 
-
   .scrollable {
+    /* Transparent bottom border offsets for height difference of header navbar. */
     @apply h-full overflow-y-auto snap-y snap-proximity border-transparent border-b-[5rem];
   }
 
@@ -51,7 +40,6 @@
     background-image: linear-gradient(180deg, #d0368aa0 0%, #708ad491 92%);
     border-radius: 100px;
   }
-
 
   dt {
     @apply select-none;
@@ -134,14 +122,16 @@
       @apply m-s:mb-4 bg-u-green-success dark:bg-u-green-success text-e8-black dark:text-u-snow mt-2 py-3 tracking-[.2rem] disabled:opacity-30 sm:py-2;
     }
   }
+
+  .pb-safe {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
 }
 
 @layer components {
 
   .stylish-button {
-    @apply rounded-3xl px-6 py-1 font-bold text-[1.3rem] sm:text-[1.5rem] xl:text-[2rem] uppercase text-center cursor-pointer
-        dark:text-e8-black text-u-snow
-        bg-e8-black dark:bg-u-snow;
+    @apply rounded-3xl px-6 py-1 font-bold text-[1.3rem] sm:text-[1.5rem] xl:text-[2rem] uppercase text-center cursor-pointer dark:text-e8-black text-u-snow bg-e8-black dark:bg-u-snow;
   }
 
   .rounded-opaque {
@@ -153,27 +143,16 @@
   }
 
   .stylish-label-content {
-    @apply
-      absolute top-0 left-0 h-full w-full
-      flex items-center
-      rounded-sm
-      text-[1rem] m-s:text-[1.1rem] m-m:text-[1.35rem] sm:text-[1.5rem] tracking-widest font-medium
-      text-shadow-sm shadow-e8-sea-buckthorn
-      text-e8-meteorite dark:text-e8-picton-blue;
+    @apply absolute top-0 left-0 h-full w-full flex items-center rounded-sm text-[1rem] m-s:text-[1.1rem] m-m:text-[1.35rem] sm:text-[1.5rem] tracking-widest font-medium text-shadow-sm shadow-e8-sea-buckthorn text-e8-meteorite dark:text-e8-picton-blue;
   }
 
   .stylish-label-bg {
-    @apply 
-      rounded-[12px] gradient-mask-r-60 pl-4 py-2
-      bg-gradient-to-l dark:from-gray-700 dark:via-gray-900 dark:to-black
-      from-u-snow/25 via-u-snow/60 to-u-snow border-transparent border-2
-      
+    @apply rounded-[12px] gradient-mask-r-60 pl-4 py-2 bg-gradient-to-l dark:from-gray-700 dark:via-gray-900 dark:to-black from-u-snow/25 via-u-snow/60 to-u-snow border-transparent border-2
   }
 
   .stylish-label-icon-container {
     @apply w-[2rem] sm:w-[3rem] mx-2 sm:mx-3 h-fit flex items-center justify-center;
   }
-
 
   .payment-list-address-icon { 
     @apply 2xl:h-[1.8rem] 2xl:w-[1.8rem] xl:h-[1.75rem] xl:w-[1.75rem] lg:h-[1.6rem] lg:w-[1.6rem] md:h-[1.6rem] md:w-[1.6rem] sm:h-[1.5rem] sm:w-[1.5rem] m-xl:w-[1.4rem] m-xl:h-[1.4rem] m-l:w-[1.2rem] m-l:h-[1.2rem] m-m:w-[1.2rem] m-m:h-[1.2rem] m-s:w-[.9rem] m-s:h-[.9rem] m-s:mt-[-.1rem] w-[1rem] mt-[1rem] shrink-0; 
@@ -222,38 +201,33 @@
   .themed-container-header {
     @apply m-s:text-[1.44rem] m-l:text-[1.88rem] border-b-e8-black/20 dark:border-b-u-snow/30 mb-2.5 select-none border-b-2 text-center font-bold tracking-wider sm:text-[2rem];
    }
- 
+
+   .landing-title { 
+    @apply m-l:text-3xl text-2xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-8xl shadow-e8-g-text-primary dark:shadow-e8-g-text-secondary tracking-[.1rem] sm:tracking-[.125rem] whitespace-nowrap themed-font-color font-medium; 
+  }
+
+  .landing-description { 
+    @apply md:text-[1.65rem] lg:leading-[3rem] xl:text-[1.85rem] xl:leading-[3.5rem] 2xl:text-[1.9rem] sm:text-[1.35rem] sm:leading-[2.25rem] sm:tracking-[.125rem] shadow-e8-g-text-primary dark:shadow-e8-g-text-secondary; 
+  }
+
+  .landing-short-description { 
+    @apply text-2xl tracking-[.1rem] sm:text-3xl sm:tracking-[.25rem] lg:text-4xl lg:leading-[3rem] m-l:max-w-[26rem] max-w-[15rem] sm:max-w-[30rem] lg:max-w-[srem] text-center break-words text-e8-g-text-primary dark:text-e8-g-text-secondary; 
+  }
+
+  .general-list-section-container {
+    @apply m-s:w-[19.5rem] m-l:w-[24rem] themed-font-color mx-auto  flex flex-col p-1 sm:w-[36rem] md:w-[42rem] xl:w-[56rem];
+  }
+
+  .general-list-element-content-container {
+    @apply m-s:text-[1rem] mb-2.5 flex flex-col sm:text-[1.3rem];
+  }
+
+  .general-list-element-content-content {
+    @apply px-2 w-full break-words sm:px-4 xl:px-8 pt-1 m-xl:pt-2 sm:pt-3 lg:pt-4 dark:text-u-snow text-e8-black;
+  }
 }
 
-
 @layer utilities {
-  .pb-safe {
-    padding-bottom: env(safe-area-inset-bottom);
-  }
-
-  .hw-accel {
-    will-change: transform;
-  }
-
-  .stylish-hr-l {
-    @apply shadow-top shadow-e8-black/20 dark:shadow-u-snow/20 w-full h-0.5 gradient-mask-l-10 opacity-20;
-  }
-
-  .stylish-hr-r {
-    @apply shadow-top shadow-e8-black/20 dark:shadow-u-snow/20 w-full h-0.5 gradient-mask-r-10 opacity-20;
-  }
-
-  .spinner-svg {
-    @apply font-extrabold text-transparent text-8xl bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600;
-  }
-
-  .inset-text-shadow {
-    @apply text-shadow-inset text-transparent bg-clip-text;
-  }
-
-  .navigation-height {
-    @apply h-[4.25rem];
-  }
 
   .navigation-link {
     @apply px-4 py-2 hover:bg-black hover:text-white;
@@ -275,35 +249,11 @@
     @apply text-e8-meteorite dark:text-e8-picton-blue;
   }
 
-  .landing-title { 
-    @apply m-l:text-3xl text-2xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-8xl shadow-e8-g-text-primary dark:shadow-e8-g-text-secondary tracking-[.1rem] sm:tracking-[.125rem] whitespace-nowrap themed-font-color font-medium; 
-  }
-
-  .landing-description { 
-    @apply md:text-[1.65rem] lg:leading-[3rem] xl:text-[1.85rem] xl:leading-[3.5rem] 2xl:text-[1.9rem] sm:text-[1.35rem] sm:leading-[2.25rem] sm:tracking-[.125rem] shadow-e8-g-text-primary dark:shadow-e8-g-text-secondary; 
-  }
-
-  .landing-short-description { 
-    @apply text-2xl tracking-[.1rem] sm:text-3xl sm:tracking-[.25rem] lg:text-4xl lg:leading-[3rem] m-l:max-w-[26rem] max-w-[15rem] sm:max-w-[30rem] lg:max-w-[srem] text-center break-words text-e8-g-text-primary dark:text-e8-g-text-secondary; 
-  }
-
   .spinner-a {
     @apply text-e8-g-text-primary absolute top-0 h-12 w-12 rotate-[245deg];
   }
 
   .spinner-b {
     @apply text-e8-g-text-secondary absolute top-0 h-12 w-12 mix-blend-soft-light;
-  }
-
-  .general-list-section-container {
-    @apply m-s:w-[19.5rem] m-l:w-[24rem] themed-font-color mx-auto  flex flex-col p-1 sm:w-[36rem] md:w-[42rem] xl:w-[56rem];
-  }
-
-  .general-list-element-content-container {
-    @apply m-s:text-[1rem] mb-2.5 flex flex-col sm:text-[1.3rem];
-  }
-
-  .general-list-element-content-content {
-    @apply px-2 w-full break-words sm:px-4 xl:px-8 pt-1 m-xl:pt-2 sm:pt-3 lg:pt-4 dark:text-u-snow text-e8-black;
   }
 }

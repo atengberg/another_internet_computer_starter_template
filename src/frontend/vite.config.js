@@ -1,7 +1,6 @@
 import  { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import EnvironmentPlugin from 'vite-plugin-environment'
-import Icons from 'unplugin-icons/vite';
 
 export default defineConfig({
   envDir: "../../",
@@ -12,27 +11,14 @@ export default defineConfig({
     // Spreads all the envars from .env prefixed with "DFX_" onto import.meta.env. 
     EnvironmentPlugin("all", { prefix: "DFX_", defineOn: "import.meta.env" }),
     EnvironmentPlugin({ 'TESTING': true}, { defineOn: "import.meta.env" }),
-    Icons({ 
-      autoInstall: true, // autoInstall is expiremental.
-      compiler: 'jsx',
-      jsx: 'react',
-      // Let's tailwind style them as text (without interference).
-      defaultStyle: "width: 100%; height: 100%",
-      // see https://github.com/antfu/unplugin-icons for many more options (custom, auto import, etc).
-    })
   ],
   build: {
+    sourcemap: true,
     outDir: "dist/",
     emptyOutDir: true,
   },
   worker: {
     format: 'es'
-  },
-  define: {
-    // This project doesn't reference process.env _anywhere_, but canister type declarations 
-    // do use process.env by default, so if you import actors from dfx generate's output, 
-    // you'd have to add them here like:
-    // 'process.env.DFX_NETWORK': JSON.stringify(process.env.DFX_NETWORK),
   },
   optimizeDeps: {
     esbuildOptions: {

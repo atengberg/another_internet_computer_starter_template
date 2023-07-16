@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
-/** Reloads the current route if the browser is refreshed. */
+/** Reloads the current route (and state) if the browser is refreshed. */
 const useRoutePathReloader = () => {
   const { pathname, state } = useLocation();
   const navigate = useNavigate();

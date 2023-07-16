@@ -19,6 +19,7 @@
     "AuthClient"
   ],
   "scripts": {
+    "test": "cd src/frontend; npm ci --legacy-peer-deps; cd ../..; npm ci --legacy-peer-deps; node ./setup.js --testing",
     "setup": "cd src/frontend; npm ci --legacy-peer-deps; cd ../..; npm ci --legacy-peer-deps; node ./setup.js",
     "build": "cd src/frontend; npm run build",
     "start": "run-p frontend backend",
@@ -26,8 +27,7 @@
     "frontend": "cd src/frontend; npm run start",
     "lint": "cd src/frontend; npm run lint",
     "sources": "mops sources",
-    "postinstall": "mops install",
-    "test": "cd src/frontend; npm ci --legacy-peer-deps; cd ../..; npm ci --legacy-peer-deps; node ./setup.js --testing"
+    "postinstall": "mops install"
   },
   "engines": {
     "node": "^12 || ^14 || ^16 || ^18"

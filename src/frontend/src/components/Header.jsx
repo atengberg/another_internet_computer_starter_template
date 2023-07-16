@@ -1,10 +1,7 @@
+import { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-
-import useCanister from "../hooks/useCanister";
+import useCanister from "../feature/canister-provider/useCanister";
 import useTheme from "../hooks/useTheme";
-
-import clsx from "clsx";
-
 import {
   RiLogoutCircleRFill, 
   RiLoginCircleLine,
@@ -12,7 +9,6 @@ import {
   RiDeleteBin7Fill, 
   RiAddCircleFill, 
   RiHomeFill,
-  RiMenuFill,
   GameIconsTakeMyMoney,
   IonListCircle,
   RiSunLine,
@@ -21,13 +17,11 @@ import {
   RiBug2Line
 } from "./Icons";
 import { statusEnum, pagesEnum } from "../utils/enums";
-import { useEffect, useState } from "react";
 
 const Header = () => {
 
   const { isAuthenticated, dev } = useCanister();
   const { pathname } = useLocation();
-
   const [currentPage, setCurrentPage] = useState(pagesEnum.LANDING);
 
   useEffect(() => {
@@ -102,7 +96,7 @@ const Header = () => {
   };
   
   return (
-    <div className="navigation-height flex items-center px-6 xl:container xl:mx-auto">
+    <div className="flex h-[4.25rem] items-center px-6 xl:container xl:mx-auto">
       <div className="m-s:gap-5 m-l:gap-6 m-xl:gap-7 flex h-full w-full items-center gap-4 sm:gap-8 md:gap-10 lg:gap-12">
         <BrandLogoWidget />
         <DevMode dev={dev} isAuthenticated={isAuthenticated} />

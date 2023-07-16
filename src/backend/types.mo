@@ -34,20 +34,6 @@ module {
 
   public let INVALID_CANISTER_ID = "invalid!canister!id";
 
-  public type PaymentStatus = {
-    // Otherwise the frontend will be false for `status.Pending ?` so add unit record type:
-    #Pending : {};
-    #Completed : { timestampNs : Time.Time };
-    #Failed : { timestampNs : Time.Time; kind : PaymentError };
-  };
-
-  public type PaymentError = {
-    // Otherwise the frontend will be false for `status.Pending ?` so add unit record type:
-    #InvalidRecipientAddress : {};
-    #ICRC1TokenCanisterTransferErr : ICRC1.TransferError;
-    #InterCanisterCallCaughtError : Text;
-  };
-
   public type Payment = {
     createdAtNs : Time.Time;
     amount : Nat;
@@ -63,6 +49,20 @@ module {
     sourceAddress : ICRC1Address;
     recipientAddress : ICRC1Address;
     status : PaymentStatus;
+  };
+
+  public type PaymentStatus = {
+    // Otherwise the frontend will be false for `status.Pending ?` so add unit record type:
+    #Pending : {};
+    #Completed : { timestampNs : Time.Time };
+    #Failed : { timestampNs : Time.Time; kind : PaymentError };
+  };
+
+  public type PaymentError = {
+    // Otherwise the frontend will be false for `status.Pending ?` so add unit record type:
+    #InvalidRecipientAddress : {};
+    #ICRC1TokenCanisterTransferErr : ICRC1.TransferError;
+    #InterCanisterCallCaughtError : Text;
   };
 
   public type GetTokenCanisterMetadataArgs = ();
@@ -97,9 +97,4 @@ module {
     payment : Payment;
     result : Result.Result<(), { msg : Text }>;
   };
-
-  public type SendPaymentResult = Result.Result<{ payment : Payment }, { payment : Payment; msg : Text }>;
-  public type SendPaymentSuccess = { payment : Payment };
-  public type SendPaymentErr = { payment : Payment; msg : Text };
-
 };

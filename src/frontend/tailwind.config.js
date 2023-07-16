@@ -1,10 +1,6 @@
 const defaultTheme = require('tailwindcss/defaultTheme')
 const plugin = require('tailwindcss/plugin')
 
-const em = px => `${px / 16}em`;
-const pxToRem = px => ({ [px]: `${px / 16}rem` });
-const px = num => ({ [num]: `${num}px` });
-
 export default {
   content: [
     "./tailwind.config.js",
@@ -90,18 +86,14 @@ export default {
         'gradient-light': `linear-gradient(to right, ${theme('gradientColorStops.light-primary')}, ${theme('gradientColorStops.light-secondary')})`,
         'gradient-dark': `linear-gradient(to right, ${theme('gradientColorStops.dark-primary')}, ${theme('gradientColorStops.dark-secondary')})`,
         'gradient-text': `linear-gradient(to right, ${theme('gradientColorStops.text-primary')}, ${theme('gradientColorStops.text-seconadry')})`,
-        'gradient-ac': `conic-gradient(rgba(59,0,185,1) 38%, rgba(30,0,93,1) 59%, rgba(41,171,226,1) 71%, rgba(82,39,133,1) 82%, rgba(237,30,121,1) 92%, rgba(251,176,59,1) 96%, rgba(241,90,36,1) 100%)`,
-        'gradient-sb': `linear-gradient(180deg, #d0368a 0%, #708ad4 99%)`
       }),  
       textShadow: {
-        'xs': '0px 1px 2px var(--tw-shadow-color)',
         sm: '0 1px 2px var(--tw-shadow-color)',
         DEFAULT: '0 2px 4px var(--tw-shadow-color)',
         md: '0 4px 8px var(--tw-shadow-color)',
         lg: '0 8px 16px var(--tw-shadow-color)',
-        'inset-sm': `0px -1px 2px var(--tw-shadow-color)`,
+        'inset-xs': `0px -1px 2px var(--tw-shadow-color)`,
         'inset': `0px -2px 3px var(--tw-shadow-color), 0px -1px 1px var(--tw-shadow-color)`,
-        'inset-lg': `0px -4px 6px var(--tw-shadow-color), -1px -2px 1px var(--tw-shadow-color)`
       },
     }
   },
@@ -117,88 +109,10 @@ export default {
     }),
   ],
   variants: {
-    fluidType: ['responsive'],
     extend: {
       textColor: ['dark'],
       dropShadow: ['hover', 'focus', 'dark'],
       textShadow: ['responsive', 'hover', 'focus', 'active', 'disabled'],
     }
   }
-}
-
-
-/*
-doesn't work with custom screens
-    require('tailwindcss-fluid-type')({
-      settings: {
-        fontSizeMin: 1, // 1.125rem === 18px
-        fontSizeMax: 1.5, // 1.25rem === 20px
-        ratioMin: 1.1, // Multiplicator Min
-        ratioMax: 1.25, // Multiplicator Max
-        screenMin: 18.75, // 300px
-        screenMax: 96, // 96rem === 1536px
-        unit: 'rem', // default is rem but it's also possible to use 'px'
-        prefix: '', // set a prefix to use it alongside the default font sizes
-        extendValues: false, 
-      },
-      values: {
-        '4xs': [-3.5, 1.4],
-        '3xs': [-3, 1.4],
-        '2xs': [-2.5, 1.4],
-        'xs': [-2, 1.6],
-        'sm': [-1, 1.6],
-        'md': [.8, 1.6],
-        'lg': [1.2, 1.6],
-        'xl': [2, 1.2],
-        '2xl': [3, 1.2],
-        '3xl': [4, 1.2],
-        '4xl': [5, 1.1],
-        '5xl': [6, 1.1],
-        '6xl': [7, 1.1],
-        '7xl': [8, 1],
-        '8xl': [9, 1],
-        '9xl': [10, 1],
-        '10xl': [10.5, 1]
-      },
-    }),
-*/
-
-
-//https://anothertechs.com/programming/tailwindcss/tailwindcss-scrollbar/
-//https://github.com/adoxography/tailwind-scrollbar
-//#FAFCFF
-// Color branding suggested "proportions of use" as a gradient:
-// background: linear-gradient(rgba(59,0,185,1) 38%, rgba(30,0,93,1) 59%, rgba(41,171,226,1) 71%, rgba(82,39,133,1) 82%, rgba(237,30,121,1) 92%, rgba(251,176,59,1) 96%, rgba(241,90,36,1) 100%);
-//https://github.com/juhanakristian/tailwind-gradient-mask-image gradient-mask-t-0
-// text mask gradient clip -> text-3xl font-extrabold etc, then-> 'text-transparent bg-clip-text <gradient>' OR as a header class <grad > inline-block text-transparent bg-clip-text
-
-// gradient underline: https://javascript.plainenglish.io/create-a-gradient-underline-with-tailwind-css-9abbb33bebcd
-// says add a the part to underline as a span with 
-// '<gradient> <bg-[length:100%_5px] bg-no-repeat bg-bottom' to do the underline, 
-// bg-[length:100% (width):_5px (height)]     | bg-no-repeat so it doesn't keep and bg-bottom to position it
-
-/*
-
-     require("tailwind-heropatterns")({
-      // as per tailwind docs you can pass variants
-      variants: [],
-    
-      // the list of patterns you want to generate a class for
-      // the names must be in kebab-case
-      // an empty array will generate all 87 patterns
-      patterns: ["slanted-stars", "signal"],
-    
-      // The foreground colors of the pattern
-      colors: {
-        default: "#000",
-        "black": "#000",
-        "test": "linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 50%, rgba(0,212,255,1) 100%)"
-      },
-    
-      // The foreground opacity
-      opacity: {
-        default: ".4",
-        "100": "1.0"
-      }
-    }),
-    */
+};

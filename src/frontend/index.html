@@ -5,9 +5,8 @@
     <link rel="modulepreload" href="./src/worker/worker.js" />
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>another internet computer starter template</title>
+    <title>ICRC1 Payment Client Demo</title>
     <link rel="icon" href="/assets/favicon.ico" />
-
     <!-- Satoshi (no italics) -->
     <link href="https://api.fontshare.com/v2/css?f[]=satoshi@1,900,700,500,301,701,300,501,401,901,400,2&display=swap" rel="stylesheet">
     <!-- Spectral -->
@@ -31,7 +30,7 @@
     <!--Script polyfills global.-->
     <script>window.global ||= window</script>
     <script type="module">
-      // Add the debug screens overlay in development mode.
+      /* Add the debug screens overlay only in development mode. */
       document.body.className += (import.meta.env.DEV ? ' debug-screens' : '');
     </script>
   </body>

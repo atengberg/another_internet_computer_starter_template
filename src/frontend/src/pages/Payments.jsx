@@ -1,6 +1,6 @@
 
-import useCanister from "../hooks/useCanister";
-import PaymentsList from "../components/PaymentsList";
+import useCanister from "../feature/canister-provider/useCanister";
+import PaymentsList from "../feature/payments/list/PaymentsList";
 
 const Payments = () => {
   const { canisterMetadata = {}, payments } = useCanister();

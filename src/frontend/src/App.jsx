@@ -1,11 +1,10 @@
-import { useCallback, useEffect, useMemo, useLayoutEffect } from "react";
-
-import { stateKeys, actionTypes } from "./utils/enums";
+import { useMemo } from "react";
+import { Routes, Route, Navigate  } from 'react-router-dom';
 
 import useRoutePathReloader from "./hooks/useRoutePathReloader";
 
-import useCanister from "./hooks/useCanister";
-import { Routes, Route, Navigate  } from 'react-router-dom';
+import useCanister from "./feature/canister-provider/useCanister";
+
 import NavMenu from './components/Header';
 import Home from './pages/Home';
 import Landing from './pages/Landing';
@@ -22,13 +21,12 @@ const Layout = () => {
   return (
     <div className="min-w-[19rem]">
       <NavMenu />
-      <div className="absolute inset-x-0 bottom-[1rem] top-[4.25rem] xl:container xl:mx-auto h-full">
+      <div className="absolute inset-x-0 bottom-[1rem] top-[4.25rem] h-full xl:container xl:mx-auto">
         <AppRoutes />
       </div>
     </div>
   )
 };
-
 
 const AppRoutes = () => {
   const { isAuthenticated } = useCanister();

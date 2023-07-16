@@ -1,18 +1,11 @@
 import { useState } from "react";
-import { useLocation } from "react-router-dom";
-import useCanister from "../hooks/useCanister";
-import { useNavigate } from "react-router-dom";
-import SendPaymentForm from "../components/send-form/SendPaymentForm";
-
+import { useLocation, useNavigate } from "react-router-dom";
+import SendPaymentForm from "../feature/send-payment-form/SendPaymentForm";
+import useCanister from "../feature/canister-provider/useCanister";
 import { actionTypes, stateKeys } from "../utils/enums";
-
 import { prepareSendPaymentArgs } from "../utils/utils";
 
-
-const addressTEST = "k2t6j-2nvnp-4zjm3-25dtz-6xhaa-c7boj-5gayf-oj3xs-i43lp-teztq-6ae-dfxgiyy.102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f20";
-
 const SendPayment = () => {
-
 
   const { 
     canisterMetadata: {
@@ -76,10 +69,5 @@ const SendPayment = () => {
     </div>
   );
 };
-
-
-
-
-
 
 export default SendPayment;

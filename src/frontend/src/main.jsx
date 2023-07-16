@@ -1,9 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import CanisterProvider from './components/CanisterProvider.jsx';
 import { BrowserRouter as Router } from 'react-router-dom';
+import CanisterProvider from './feature/canister-provider/CanisterProvider.jsx';
 import App from './App.jsx';
-import './reset.css';
 import './index.css';
 
 global.BigInt.prototype.toJSON = function () { return this.toString() };

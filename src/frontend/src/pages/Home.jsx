@@ -1,14 +1,14 @@
-import useCanister from "../hooks/useCanister";
-import ICRC1CanisterMetadata from "../components/ICRC1CanisterMetadata";
-import AccountOverview from "../components/AccountOverview";
-import Spinner from "../components/Spinner";
+import useCanister from "../feature/canister-provider/useCanister";
+import ICRC1CanisterMetadata from "../feature/home/ICRC1CanisterMetadata";
+import AccountOverview from "../feature/home/AccountOverview";
 
 const Home = () => {
-  const { createdCount, accountAddress, currentBalanceBaseUnits, canisterMetadata } = useCanister();
-
-  if (!canisterMetadata) {
-    return <Spinner />
-  };
+  const { 
+    createdCount, 
+    accountAddress, 
+    currentBalanceBaseUnits, 
+    canisterMetadata 
+  } = useCanister();
 
   return (
     <div className="scrollable">

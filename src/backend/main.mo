@@ -18,10 +18,8 @@ import Text "mo:base/Text";
 import Time "mo:base/Time";
 import Map "mo:map/Map";
 
-import MockIcrc1 "./mockicrc1";
 import Types "./types";
 import Utils "./utils";
-
 shared ({ caller = installer_ }) actor class PaymentProcessor() = this {
 
   let { phash; thash } = Map;

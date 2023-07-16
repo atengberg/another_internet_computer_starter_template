@@ -24,9 +24,7 @@ const AutoEllipsizingTextSpan = ({
   const ellispsisFcn = useCallback(() => ellipsisFunction(originalText), [ellipsisFunction, originalText]);
   useLayoutEffect(() => {
     const onResize = () => {
-      // Refs are alright, but current in this case is more tedious. 
       const { current = null } = textMeasureRef;
-     // const addressTextMeasure = document.getElementById("autoellipsize-address-text-measure");
       // Check if the total spanning ("scrollable") width of the text is greater than available visible width:
       const shouldEllipsize = (current?.clientWidth < current?.scrollWidth);
       setDisplayedText(() => shouldEllipsize ? ellispsisFcn() : originalText);
