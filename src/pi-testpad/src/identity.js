@@ -1,3 +1,5 @@
+import initialize from "./init.js";
+initialize();
 
 
 import { Actor, HttpAgent } from "@dfinity/agent";

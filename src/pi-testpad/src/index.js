@@ -1,5 +1,3 @@
-import initialize from "./init.js";
-initialize();
 
 import { LoremIpsum } from "lorem-ipsum";
 import chalk from 'chalk';
@@ -7,12 +5,13 @@ const lorem = new LoremIpsum();
 
 import {
   actorEd25,
+  getRandomActor,
   actorSec256
 } from "./identity.js";
 
 import {
   statusEnum, stateKeys, actionTypes, icrc1MDTypes, pagesEnum,
-} from "../../frontend/src/utils/enums.js"
+} from "./utils.js"
 
 import {
   flip,
@@ -22,7 +21,6 @@ import {
   fromBaseUnits,
   convertExponetialIntoStringWithAllPlaceholderZeros,
   containsDecimalPoint,
-  parseSendPaymentResponse,
   parseAccountBalanceResponse,
   parseTokenCanisterMetadataResponse,
   parseAccountPaymentsResponse,
@@ -34,7 +32,7 @@ import {
   getDisplayDateStrings,
   isNonTrivialString,
   clientCreatePayment
-} from "../../frontend/src/utils/utils.js";
+} from "./utils.js";
 
 function logS(...args) { 
   args.forEach(arg => {
@@ -63,7 +61,44 @@ async function addresses() {
   }
 }
 
+const {
+  ed25Address, sec256Address
+} = await addresses();
+
+
+const decimals = 8n;
+const createdCount = 0n;
+const accountAddress = ed25Address;
+
+const inputs = {
+  amountInput: "1.0",
+  descriptionInput: "",
+  recipientAddressInput: sec256Address
+}
+
+const {
+  payment: clientPayment,
+  args
+} = prepareSendPaymentArgs({
+  inputs,
+  decimals,
+  accountAddress,
+  createdCount
+})
+
+
+const res = await actorEd25.send_payment(args);
+
+
+console.log(chalk.red("clientPaymentclientPaymentclientPayment ================================================================================="))
+
+
+/*
 let res = await actorEd25.get_account_payments();
+
+console.log(res.payments[0])
+
+
 res = parseAccountPaymentsResponse(res);
 console.log(chalk.blue("initial get payments call".toUpperCase()) + "\n");
 console.log(res)
@@ -78,9 +113,6 @@ const inputs = {
   recipientAddressInput: sec256Address
 }
 
-const decimals = 8;
-const createdCount = 0;
-const sourceAddress = ed25Address;
 
 const {
   payment: clientPayment,
@@ -97,10 +129,10 @@ console.log(clientPayment)
 console.log("\n" + chalk.green("send payment args".toUpperCase()) + "\n");
 
 res = await actorEd25.send_payment(args);
-res = parseSendPaymentResponse(res)
-console.log("\n" + chalk.blue("send payment response".toUpperCase()) + "\n");
-console.log(res)
+console.log("\n" + chalk.yellow("raw send payment response".toUpperCase()) + "\n");
+console.log(res.payment.status.Completed)
 
+*/
 
 
 
@@ -214,6 +246,28 @@ const makePayments = (recipientAddress) => {
 
 
 
+const a = await getRandomActor();
+
+
+const inputs = {
+  amountInput: 10000000000,
+  descriptionInput: "",
+  recipientAddressInput: sec256Address
+}
+
+const decimals = 8;
+const createdCount = 0;
+const sourceAddress = ed25Address;
+
+const {
+  payment: clientPayment,
+  args
+} = prepareSendPaymentArgs({
+  inputs,
+  decimals,
+  sourceAddress,
+  createdCount
+})
 
 
 
@@ -250,8 +304,6 @@ console.log(p.status)
 
 
 */
-
-
 
 
 
