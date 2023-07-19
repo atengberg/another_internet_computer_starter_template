@@ -1,18 +1,15 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import useCanister from "../feature/canister-provider/useCanister";
-import useTheme from "../hooks/useTheme";
+import ThemeModeWidget from "./ThemeModeWidget";
+import LoginoutWidget from "./LoginoutWidget";
 import {
-  RiLogoutCircleRFill, 
-  RiLoginCircleLine,
   RiFileCopyFill, 
   RiDeleteBin7Fill, 
   RiAddCircleFill, 
   RiHomeFill,
   GameIconsTakeMyMoney,
   IonListCircle,
-  RiSunLine,
-  RiMoonLine,
   RiBug2Fill,
   RiBug2Line
 } from "./Icons";
@@ -89,6 +86,7 @@ const Header = () => {
       case pagesEnum.SEND:
         return (
           <>
+          <PaymentsListWidget />
           <HomeWidget />
           </>
         );
@@ -139,6 +137,7 @@ const CopyPaymentToSendWidget = ({ id }) => {
   const navigate = useNavigate();
   const click = () => {
     const payment = getPaymentById(id);
+    // Verify each specific detail is valid to copy, if not skip that detail:
     const { amountBaseUnits: a, description, recipientAddress: ra, status } = payment;
     let amount = a;
     let recipientAddress = ra;
@@ -152,7 +151,12 @@ const CopyPaymentToSendWidget = ({ id }) => {
     navigate("/payments/create", { state: { copy: { amount, description, recipientAddress }}});
   }
   return (
-    <RiFileCopyFill aria-hidden={true} className="stylish-menu-icon" onClick={click} />
+    <button aria-labelledby="copy-payment-to-send-label" className="z-[99]" onClick={click}>
+      <RiFileCopyFill aria-hidden={true} className="stylish-menu-icon"  />
+      <label className="sr-only" name="copy-payment-to-send-label" id="copy-payment-to-send-label">
+        navigate to send payment form copying the details of this payment to autofill the form with
+      </label>
+    </button>
   );
 };
 
@@ -194,51 +198,6 @@ const MenuLink = ({
         {ariaText}
       </label>
     </Link>
-  );
-};
-
-const ThemeModeWidget = () => {
-  const { darkMode, toggleDarkMode } = useTheme();
-  return (
-    <button 
-      className="z-[99]"
-      aria-pressed={darkMode}
-      title={`Toggle ${darkMode ? 'Light' : 'Dark'} Mode`}
-      aria-labelledby='theme-switch-label'
-      role="switch"
-      onClick={() => toggleDarkMode()} 
-    >
-      {darkMode 
-        ? <RiMoonLine aria-hidden={true} className="stylish-menu-icon" />
-        : <RiSunLine aria-hidden={true} className="stylish-menu-icon" />
-      }
-      <label className="sr-only" id="theme-switch-label" name="theme-switch-label">
-        {`toggle ${darkMode ? 'light' : 'dark'} mode`}
-      </label>
-    </button>
-  );
-};
-
-
-const LoginoutWidget = () => {
-  const { isAuthenticated, login, logout } = useCanister();
-  return (
-    <button 
-      aria-pressed={isAuthenticated}
-      title={`${isAuthenticated ? "Logout" : "Login"}`}
-      aria-labelledby='toggle-authentication-label'
-      role="switch"
-      onClick={() => isAuthenticated ? logout() : login()} 
-    >
-      {isAuthenticated 
-        ? <RiLogoutCircleRFill aria-hidden={true} className="stylish-menu-icon" />
-        : <RiLoginCircleLine aria-hidden={true} className="stylish-menu-icon" />
-      }
-      <label className="sr-only" id="toggle-authentication-label" name="toggle-authentication-label"
-      >
-        {`${isAuthenticated ? "logout" : "login in a new browser window and it will return automatically after logging in"}`}
-      </label>
-    </button>
   );
 };
 

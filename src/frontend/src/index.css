@@ -25,7 +25,7 @@
 
   .scrollable {
     /* Transparent bottom border offsets for height difference of header navbar. */
-    @apply h-full overflow-y-auto snap-y snap-proximity border-transparent border-b-[5rem];
+    @apply h-full overflow-y-auto snap-y snap-proximity border-transparent border-b-[5rem] overflow-x-hidden;
   }
 
   /* Chrome, Edge, and Safari */
@@ -191,7 +191,7 @@
   }
 
   .payment-list-element-li { 
-    @apply hover:shadow-md px-2 sm:px-3 md:px-4 py-1 sm:py-2 m-m:h-[7.5rem] h-[6rem] sm:h-[8rem] lg:h-[8.5rem] cursor-pointer select-none snap-start border-b-2 border-b-white my-auto relative; 
+    @apply hover:shadow-md px-2 sm:px-3 md:px-4 py-1 sm:py-2 m-m:h-[7.5rem] h-[6rem] sm:h-[8rem] lg:h-[8.5rem] cursor-pointer select-none snap-start relative; 
   }
 
   .payment-description-copy-address-button {
@@ -202,7 +202,7 @@
     @apply m-s:text-[1.44rem] m-l:text-[1.88rem] border-b-e8-black/20 dark:border-b-u-snow/30 mb-2.5 select-none border-b-2 text-center font-bold tracking-wider sm:text-[2rem];
    }
 
-   .landing-title { 
+  .landing-title { 
     @apply m-l:text-3xl text-2xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-8xl shadow-e8-g-text-primary dark:shadow-e8-g-text-secondary tracking-[.1rem] sm:tracking-[.125rem] whitespace-nowrap themed-font-color font-medium; 
   }
 

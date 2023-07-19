@@ -7,7 +7,6 @@ import { AuthClient } from '@dfinity/auth-client';
 // are not supported with loader and actions--however there is some work with
 // setting up that with the comlink library).
 
-
 const useInternetIdentity = ({
   onUserLoggedOut,
 } = {}) => {
@@ -56,7 +55,7 @@ const useInternetIdentity = ({
 
   const dev = useMemo(() => {
     // Get from environmental variable.
-    const isTesting = (import.meta.env.TESTING || false);
+    const isTesting = (import.meta.env.MODE_IS_TESTING || false);
     const login = () => setIsAuthenticated(() => true);
     const logout = () => setIsAuthenticated(() => false);
     return {

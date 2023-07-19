@@ -9,7 +9,7 @@ global.BigInt.prototype.toJSON = function () { return this.toString() };
 
 const dapp = (
   <Router>
-    <CanisterProvider>
+    <CanisterProvider workerFilePath="../worker/worker.js">
       <App />
     </CanisterProvider>
   </Router>

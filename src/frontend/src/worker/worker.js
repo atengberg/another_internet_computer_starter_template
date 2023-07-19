@@ -1,5 +1,6 @@
 
-// Need to manually polyfill in WebWorker's context to make candid Nat's transferrable. 
+// Need to manually polyfill in WebWorker's context to make candid Nat's transferrable.
+// Good reason for using Typescript instead...
 BigInt.prototype.toJSON = function () { return this.toString(); };
 
 import { get, set } from 'idb-keyval';

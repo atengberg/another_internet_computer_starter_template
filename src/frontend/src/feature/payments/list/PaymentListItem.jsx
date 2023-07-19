@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import AutoEllipsizingTextSpan from "../../../components/AutoEllipsizingTextSpan";
 import { RiSendPlaneFill } from "../../../components/Icons";
 import { 
-  getStatusColor, 
+  getTextStatusColor, 
   fromBaseUnits, 
   convertExponetialIntoStringWithAllPlaceholderZeros, 
   isNonTrivialString,
@@ -22,7 +22,7 @@ const PaymentListItem = (props) => {
     recipientAddress 
   } = props;
   const navigate = useNavigate();
-  const statusColor = getStatusColor(status.type);
+  const statusColor = getTextStatusColor(status.type);
   const normalUnits = convertExponetialIntoStringWithAllPlaceholderZeros(fromBaseUnits(amountBaseUnits, decimals));
   return (   
     <>

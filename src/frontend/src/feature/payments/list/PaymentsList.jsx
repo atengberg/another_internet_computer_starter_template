@@ -15,7 +15,7 @@ const PaymentsList = ({
     return <ZeroPaymentsPlaceholder />;
   } else {
     return (
-      <div className="scrollable h-full min-w-[18rem]">
+      <div className="scrollable">
         <ul className="rounded-opaque flex flex-col">
           {payments.map((p, i) => (
             <PaymentListItem 

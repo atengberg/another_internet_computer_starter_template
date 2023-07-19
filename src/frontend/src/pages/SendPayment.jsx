@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import SendPaymentForm from "../feature/send-payment-form/SendPaymentForm";
 import useCanister from "../feature/canister-provider/useCanister";
-import { actionTypes, stateKeys } from "../utils/enums";
 import { prepareSendPaymentArgs } from "../utils/utils";
 
 const SendPayment = () => {
@@ -14,13 +13,16 @@ const SendPayment = () => {
     },
     sourceAddress, 
     createdCount, 
-    taskWorker, 
-    taskUi 
+    onDispatchSendPayment, 
   } = useCanister();
 
   const navigate = useNavigate();
 
+  // Called when UI has validated send payment inputs:
   const onSendPaymentConfirmed = (inputs) => {
+
+    // Create the send_payment args and the view model of the payment used until that call finishes
+    // (or the next time get_account_payments updates the payments view model):
     const {
       payment,
       args
@@ -29,23 +31,11 @@ const SendPayment = () => {
       decimals,
       sourceAddress,
       createdCount
-    })
-    // Update the UI with the pending client created payment viewmodel.
-    taskUi({ 
-      type: actionTypes.UPDATE, 
-      key: stateKeys.payment, 
-      payload: { 
-        payment, 
-        fromClient: true 
-      } 
     });
-    // Post the send_payment call event.
-    taskWorker({ 
-      type: actionTypes.UPDATE, 
-      key: stateKeys.payment, 
-      args
-    });
-    // Make sure the navigation is enqueued after.
+    // Updated the UI with the pending payment 
+    // and dispatch the call to the canister:
+    onDispatchSendPayment(args, payment);
+    // Make sure the navigation is enqueued afterwards:
     setTimeout(() => {
       navigate('/payments', { replace: true });
     }, 11);

@@ -7,7 +7,7 @@ import fetch from 'isomorphic-fetch';
 
 async function getActor(
   anonymous = false, 
-  testing = (import.meta.env.TESTING || false)
+  testing = (import.meta.env.MODE_IS_TESTING || false)
 ) {
   const getIdentity = async () => {
     if (testing) {

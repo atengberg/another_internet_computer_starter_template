@@ -2,7 +2,7 @@ import clsx from "clsx";
 
 import DataTitle from "./DataTitle";
 import { 
-  getStatusColor, 
+  getTextStatusColor, 
   convertExponetialIntoStringWithAllPlaceholderZeros, 
   fromBaseUnits, 
   isNonTrivialString, 
@@ -40,7 +40,7 @@ const PaymentDetailsContent = ({ payment, decimals, tokenSymbol }) => {
   const normalUnits = convertExponetialIntoStringWithAllPlaceholderZeros(fromBaseUnits(amountBaseUnits, decimals));
 
   const hasDescription = isNonTrivialString(description);
-  const statusColor = getStatusColor(status.type, true);
+  const statusColor = getTextStatusColor(status.type, true);
   const statusMessage = getStatusMessage(status);
   const statusIcon = getStatusIcon(status, statusColor);
 

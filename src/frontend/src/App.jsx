@@ -19,7 +19,7 @@ const App =() => {
 
 const Layout = () => {
   return (
-    <div className="min-w-[19rem]">
+    <div className="min-w-[19rem] xl:container xl:mx-auto">
       <NavMenu />
       <div className="absolute inset-x-0 bottom-[1rem] top-[4.25rem] h-full xl:container xl:mx-auto">
         <AppRoutes />
@@ -27,6 +27,8 @@ const Layout = () => {
     </div>
   )
 };
+
+console.log(JSON.stringify({MODE_IS_TESTING: `${JSON.stringify(import.meta.env.MODE_IS_TESTING)}` }))
 
 const AppRoutes = () => {
   const { isAuthenticated } = useCanister();

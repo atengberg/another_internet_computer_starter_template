@@ -22,7 +22,7 @@ const AccountOverview = ({
 
   let countDisplay = null;
   if (createdCount && createdCount > 0) {
-    countDisplay = `Total number of payments created ${createdCount}`;
+    countDisplay = `Total number of all payments created by this account address:  ${createdCount}`;
   } else if (`${createdCount}` === '0') {
     countDisplay = `Zero payments created so far.`;
   };

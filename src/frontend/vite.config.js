@@ -6,11 +6,12 @@ export default defineConfig({
   envDir: "../../",
   plugins: [
     react(),
-    // Spreads all the envars from .env prefixed with "CANISTER_" onto import.meta.env. 
+    // Spreads all the envars from .env prefixed with "CANISTER_" onto import.meta.env:
     EnvironmentPlugin("all", { prefix: "CANISTER_", defineOn: "import.meta.env" }),
-    // Spreads all the envars from .env prefixed with "DFX_" onto import.meta.env. 
+    // Spreads all the envars from .env prefixed with "DFX_" onto import.meta.env: 
     EnvironmentPlugin("all", { prefix: "DFX_", defineOn: "import.meta.env" }),
-    EnvironmentPlugin({ 'TESTING': true}, { defineOn: "import.meta.env" }),
+    // Shows a "Debug Bug" next to brand in nav bar that logs in/out with test identity (including webworker actor):
+    EnvironmentPlugin({ 'MODE_IS_TESTING': true}, { defineOn: "import.meta.env" }),
   ],
   build: {
     sourcemap: true,
@@ -23,7 +24,7 @@ export default defineConfig({
   optimizeDeps: {
     esbuildOptions: {
         // Node.js global to browser globalThis.
-        // (Makes it possible for WebWorker to use imports.) 
+        // (Noted that it makes it possible for WebWorker to use imports.) 
         define: {
             global: 'globalThis'
         },
